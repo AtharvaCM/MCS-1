@@ -1,0 +1,38 @@
+create type Route_1 as object(
+route_no number, 
+src varchar2(20),
+dst varchar2(20),
+no_of_stations number);
+
+create table Route_t of Route_1(route_no primary key);
+
+insert into Route_t values(1, 'Dhanakawadi', 'Shivajinagar', 18);
+insert into Route_t values(2, 'Katraj', 'Shivajinagar', 20);
+insert into Route_t values(3, 'Katraj', 'Warje', 10);
+insert into Route_t values(4, 'Swargate', 'Hadapsar', 15);
+insert into Route_t values(5, 'Chinchwad', 'Corporation', 25);
+insert into Route_t values(6, 'Manapa', 'Shivajinagar', 2);
+
+select * from Route_t;
+
+
+create type Bus_1 as object(
+bus_no number, 
+cap number,
+depot_name varchar2(20),
+route ref Route_1);
+
+-- delete type Bus_1;
+-- drop table Bus_t;
+create table Bus_t of Bus_1(bus_no primary key);
+
+ALTER TABLE Bus_t MODIFY(cap NOT NULL);
+
+describe Bus_t;
+
+insert into Bus_t select 101, 35, 'Dhanakawadi', REF(r) FROM Route_t r
+where r.src = 'Katraj';
+
+delete from Bus_t;
+
+select * from Bus_t;

@@ -1,0 +1,75 @@
+Consider the following relational schema
+Teacher( t_no, fname, lname, salary, joiningdate, birthdate )
+Class ( class_no, t_no, roomno)
+Payscale ( minlimit, maxlimit, grade)
+
+a. Give an object-relational schema definition using references to express foreign-key
+relationships.
+b. Write each of the queries given below on the above schema using OQL(Object Query
+Language).
+
+1. Display the name of the teacher who is oldest among all teachers.
+2. Display teacher numbers and names of those teachers who are earning less than ‘jatin’.
+3. Display the list of all teachers who are earning equal to any teacher who has joined
+before ’31-dec-1998;
+
+
+
+
+create type Teacher_1 as object(
+tno number,
+f_name varchar2(30),
+l_name varchar2(50),
+salary number,
+j_date date,
+b_date date);
+
+create table teacher_t of Teacher_1 (tno primary key);
+
+insert into teacher_t values (1,'Sagar','Joshi',25000,'06-dec-1995','27-mar-1973');
+insert into teacher_t values (2,'Vaishali','Shah',25000,'15-jun-1995','27-mar-1975');
+insert into teacher_t values (3,'Jatin','Patil',35000,'17-jun-1995','27-mar-1978');
+
+
+
+
+create type Class_2 as object(
+cno number,
+teacher REF Teacher_1,
+room_no number);
+
+create table class1_t of Class_2(cno primary key);
+insert into class1_t select 111,ref(t),37 from teacher_t t where t.f_name='Sagar' and t.l_name='Joshi';
+insert into class1_t select 112,ref(t),38 from teacher_t t where t.f_name='Vaishali' and t.l_name='Shah';
+insert into class1_t select 113,ref(t),39 from teacher_t t where t.f_name='Jatin' and t.l_name='Patil';
+
+
+create type Payscale_1 as object (
+min_limit number,
+max_limit number,
+grade varchar(15));
+
+create table payscale_t of Payscale_1;
+
+1}
+select f_name,l_name
+from teacher_t
+where b_date<=all
+(select b_date
+ from teacher_t);
+ 
+2}
+Select f_name,l_name
+ from teacher_t
+ where salary<(select salary
+ from teacher_t
+ where f_name='Jatin');
+ 
+3}
+
+ select f_name,l_name
+ from teacher_t
+ where j_date>'31-dec-1998' and
+ salary in (select salary 
+            from teacher_t
+            where j_date<'31-dec-1998');

@@ -1,0 +1,177 @@
+Consider the following relational schema
+Student( s_id int, sname varchar(20), level varchar(20), age int, subject varchar(20))
+Class( cname varchar(20), meet at varchar (20), room int, fid int)
+Enrolled( s_id integer, cname varchar (20))
+Faculty (fid int, fname varchar(20), deptid int)
+
+
+1}
+Give an object-relational schema definition using references to express foreign-key
+relationships
+
+2}
+Write each of the queries given below on the above schema using OQL(Object Query
+Language).
+
+1. Find the names of all classes that either meet in room 86 or have two or more 
+   students enrolled.
+2. Find the name of the oldest student who has opted either a ‘cs-212’ subject.
+3. Find the names of students enrolled in the maximum number of classes.
+4. Find the names of student not enrolled in any class.
+
+
+
+
+Step-1  creating the abstract datatype(4 different datatype)
+Step-2 Create tables using datatypes
+Step-3 Inserting values
+
+
+create type Stud_1 as object(
+s_id number, 
+s_name varchar2(30),
+s_level varchar2(15),
+age number,
+subject varchar2(15));
+
+create type Stud_1 as object(
+s_id number, 
+s_name varchar2(30),
+s_level varchar2(15),
+age number,
+subject varchar2(15));
+
+create type Stud_1 as object(
+s_id number, 
+s_name varchar2(30),
+s_level varchar2(15),
+age number,
+subject varchar2(15));
+
+
+
+create table stud_t of Stud_1(s_id primary key);
+
+insert into stud_t values(1,'sagar joshi','UG',19,'cs-311');
+insert into stud_t values(2,'aditya bhosale','UG',19,'cs-212');
+insert into stud_t values(3,'nikita bhole','PG',21,'cs-413');
+insert into stud_t values(4,'abhi wagmare','PG',21,'cs-412');
+insert into stud_t values(5,'raj shrinivasan','UG',19,'cs-212');
+insert into stud_t values(6,'mansi mandhare','UG',19,'cs-212');
+insert into stud_t values(7,'Pragati Singh','PG',19,'cs-412');
+insert into stud_t values(8,'Om Jagtap','PG',19,'cs-414')
+select * from stud_t
+
+create type Faculty_1 as object(
+f_id number, 
+f_name varchar2(30),
+deptid number);
+
+create table faculty_t of Faculty_1(f_id primary key);
+
+insert into faculty_t values(11,'Shweta Pawar',2);
+insert into faculty_t values(12,'Sameer Kulkarni',3);
+insert into faculty_t values(13,'Sanjay Mahajan',4);
+
+
+select * from faculty_t;
+
+
+create type Class_1 as object(
+c_name varchar2(30),
+meetat number,
+room number,
+faculty REF Faculty_1);
+
+create table class_t of Class_1(c_name primary key);
+
+insert into class_t select 'SYBScCS',10,85, REF(f) FROM faculty_t f
+where f.f_name='Shweta Pawar';
+
+insert into class_t select 'TYBScCS',11,86, REF(f) FROM faculty_t f
+where f.f_name='Shweta Pawar';
+
+insert into class_t select 'MCA',12,87, REF(f) FROM faculty_t f
+where f.f_name='Shweta Pawar';
+
+insert into class_t select 'FYBScCS',10,88, REF(f) FROM faculty_t f
+where f.f_name='Sameer Kulkarni';
+
+insert into class_t select 'MScCS',12,89, REF(f) FROM faculty_t f
+where f.f_name='Sameer Kulkarni';
+
+select * from class_t;
+
+create type Enrolled_1 as object(
+Stud_ REF Stud_1,
+Class_ REF Class_1);
+
+create table enrolled_t of Enrolled_1;
+
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=1 and c.c_name='TYBScCS';
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=2 and c.c_name='FYBScCS';
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=3 and c.c_name='SYBScCS';
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=4 and c.c_name='MScCS';
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=5 and c.c_name='MCA';
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=6 and c.c_name='MScCS';
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=7 and c.c_name='MCA';
+
+insert into enrolled_t select ref(s),ref(c) from stud_t s,class_t c
+where s.s_id=7 and c.c_name='MScCS';
+
+SELECT * FROM enrolled_t;
+===========================================
+
+1. Find the names of all classes that either meet in room 86 or have two or more 
+   students enrolled.
+2.Find the name of the oldest student who has opted  a ‘cs-212’ subject
+3. Find the names of students enrolled in the maximum number of classes.
+4. Find the names of student not enrolled in any class.
+
+
+
+1}
+
+Select c.c_name from class_t c where c.room ='86' or c.c_name in
+(Select deref(class_).c_name
+ from enrolled_t e
+ group by deref(class_).c_name
+ having count(*)>=2);
+
+
+2}
+Select s_name from stud_t where subject='cs-212' and age=
+(select max(age)
+ from stud_t
+ group by subject
+ having subject ='cs-212';
+
+3}
+ select s_name from stud_t where s_id in
+ (select deref(Stud_).s_id
+  from enrolled_t e
+  group by deref(Stud_).s_id
+  having count(*) >= all(select count(*)
+                         from enrolled_t
+                         group by deref(Stud_).s_id));
+
+4}
+
+Select s_name from stud_t where s_id not in
+(Select deref(Stud_).s_id from enrolled_t e
+group by deref(Stud_).s_id);
+ 
