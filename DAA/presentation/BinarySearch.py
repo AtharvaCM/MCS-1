@@ -2,17 +2,22 @@ def binary_search(arr, target):
     n = len(arr)
     minimum = 0
     maximum = n-1
+    counter = 1
 
     while True:
-        print('maximum: ', maximum)
-        print('minimum: ', minimum)
+        print('\nIteration: ', counter)
+        counter += 1
+        print('\tmaximum: ', maximum)
+        print('\tminimum: ', minimum)
         # If max < min, then stop: target is not present in array. Return -1.
         if (maximum < minimum):
             return -1
 
         # Compute guess as the average of max and min, rounded down (so that it is an integer).
         guess = round((maximum + minimum) / 2)
-        print('guess: ', guess)
+        print('\tguess: ', guess)
+        print('\tarr[guess]: ', arr[guess])
+        print('\ttarget: ', target)
 
         # If array[guess] equals target, then stop. You found it! Return guess.
         if arr[guess] == target:
@@ -26,12 +31,13 @@ def binary_search(arr, target):
 
 
 if __name__ == "__main__":
-    arr = [1, 2, 3, 5, 7, 8, 15]
-    target = 5
+    arr = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91]
+    arr.sort()
+    target = 23
 
     index = binary_search(arr, target)
 
     if index == -1:
-        print('Target is not present in the array!')
+        print('\nTarget is not present in the array!')
     else:
-        print('Target is present at index: ', index)
+        print('\nTarget is present at index: ', index)
