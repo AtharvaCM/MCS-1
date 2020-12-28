@@ -1,38 +1,144 @@
-create type Route_1 as object(
-route_no number, 
-src varchar2(20),
-dst varchar2(20),
-no_of_stations number);
+CREATE TYPE ROUTE_1 AS OBJECT( 
+ROUTE_NO NUMBER,  
+SRC VARCHAR2(20), 
+DST VARCHAR2(20), 
+NO_OF_STATIONS NUMBER); 
+ 
+CREATE TABLE ROUTE_T of ROUTE_1(ROUTE_NO PRIMARY KEY); 
+ 
+INSERT INTO ROUTE_T VALUES(1, 'Dhanakawadi', 'Shivajinagar', 18); 
+INSERT INTO ROUTE_T VALUES(2, 'Katraj', 'Shivajinagar', 20); 
+INSERT INTO ROUTE_T VALUES(3, 'Katraj', 'Warje', 10); 
+INSERT INTO ROUTE_T VALUES(4, 'Swargate', 'Hadapsar', 15); 
+INSERT INTO ROUTE_T VALUES(5, 'Chinchwad', 'Corporation', 25); 
+INSERT INTO ROUTE_T VALUES(6, 'Manapa', 'Shivajinagar', 2); 
+ 
+SELECT * FROM ROUTE_T; 
+ 
+ 
+CREATE TYPE BUS_1 AS OBJECT( 
+BUS_NO NUMBER,  
+CAP NUMBER, 
+DEPOT_NAME VARCHAR2(20), 
+ROUTE REF ROUTE_1); 
+ 
+-- delete type Bus_1; 
+-- drop table Bus_t; 
+CREATE TABLE BUS_T OF BUS_1(BUS_NO PRIMARY KEY); 
+ 
+ALTER TABLE BUS_T MODIFY(CAP NOT NULL); 
+ 
+DESCRIBE BUS_t; 
+ 
+INSERT INTO BUS_T SELECT 101, 35, 'Dhanakawadi', REF(r) FROM Route_t r WHERE r.route_no = 1; 
+INSERT INTO BUS_T SELECT 102, 5, 'Katraj', REF(r) FROM Route_t r WHERE r.route_no = 2; 
+INSERT INTO BUS_T SELECT 103, 15, 'Shivajinagar', REF(r) FROM Route_t r WHERE r.route_no = 3; 
+INSERT INTO BUS_T SELECT 104, 25, 'Katraj', REF(r) FROM Route_t r WHERE r.route_no = 4; 
+INSERT INTO BUS_T SELECT 105, 20, 'Dhanakawadi', REF(r) FROM Route_t r WHERE r.route_no = 5; 
+INSERT INTO BUS_T SELECT 106, 8, 'Dhanakawadi', REF(r) FROM Route_t r WHERE r.route_no = 6; 
+ 
+SELECT * FROM BUS_T; 
+ 
+-- 3. Driver (driver_no int , driver_name char(20), license_no int, address char(20), d_age int , salary float) 
+ 
+CREATE TYPE DRIVER_1 AS OBJECT( 
+DRIVER_NO NUMBER,  
+DRIVER_NAME VARCHAR2(20), 
+LICENSE_NO NUMBER, 
+ADDRESS VARCHAR2(20), 
+D_AGE NUMBER, 
+SALARY FLOAT); 
+ 
+CREATE TABLE DRIVER_T OF DRIVER_1(DRIVER_NO PRIMARY KEY); 
+ 
+ALTER TABLE DRIVER_T MODIFY(LICENSE_NO UNIQUE NOT NULL); 
+ 
+DESCRIBE DRIVER_T; 
+ 
+-- drop type Driver_1; 
+-- drop table Driver_t; 
+ 
+INSERT INTO DRIVER_T VALUES(201, 'Aakash', 42001, 'Pune', 20, 15000.0); 
+INSERT INTO DRIVER_T VALUES(202, 'Atharva', 42002, 'Pune', 20, 16000.0); 
+INSERT INTO DRIVER_T VALUES(203, 'Arti', 42003, 'Pune', 21, 17000.0); 
+INSERT INTO DRIVER_T VALUES(204, 'Shubhu', 42004, 'Pune', 22, 13000.0); 
+INSERT INTO DRIVER_T VALUES(205, 'Swup', 42005, 'Pune', 23, 20000.0); 
+ 
+select * from DRIVER_T; 
+ 
+CREATE TYPE BUS_DRIVER_1 AS OBJECT( 
+DATE_OF_DUTY DATE, 
+SHIFT INT, 
+BUS_V REF BUS_1, 
+DRIVER_V REF DRIVER_1); 
+ 
+CREATE TABLE BUS_DRIVER_T OF BUS_DRIVER_1(SHIFT CHECK(SHIFT = 1 OR SHIFT = 2));
 
-create table Route_t of Route_1(route_no primary key);
+ALTER TABLE BUS_DRIVER_T MODIFY(UNIQUE(BUS_V, DRIVER_V));
+ 
+DESCRIBE BUS_DRIVER_T; 
+ 
+insert into BUS_DRIVER_T select '12-jan-2008', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 101 and dd.driver_no = 201;
+insert into BUS_DRIVER_T select '12-jan-2008', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 101 and dd.driver_no = 201;
+insert into BUS_DRIVER_T select '12-jan-2016', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 101 and dd.driver_no = 202; 
+insert into BUS_DRIVER_T select '12-jan-2008', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 101 and dd.driver_no = 203; 
+insert into BUS_DRIVER_T select '12-jan-2018', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 102 and dd.driver_no = 203; 
+insert into BUS_DRIVER_T select '22-jan-2008', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 102 and dd.driver_no = 204; 
+insert into BUS_DRIVER_T select '12-jan-2008', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 102 and dd.driver_no = 205; 
+insert into BUS_DRIVER_T select '12-apr-2008', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 103 and dd.driver_no = 202; 
+insert into BUS_DRIVER_T select '13-jan-2007', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 103 and dd.driver_no = 203; 
+insert into BUS_DRIVER_T select '12-feb-2012', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 103 and dd.driver_no = 204; 
+insert into BUS_DRIVER_T select '15-jan-2015', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 104 and dd.driver_no = 201; 
+insert into BUS_DRIVER_T select '12-jan-2008', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 104 and dd.driver_no = 203; 
+insert into BUS_DRIVER_T select '12-dec-2016', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 104 and dd.driver_no = 205; 
+insert into BUS_DRIVER_T select '12-jan-2006', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 105 and dd.driver_no = 201; 
+insert into BUS_DRIVER_T select '12-jan-2010', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 105 and dd.driver_no = 202; 
+insert into BUS_DRIVER_T select '12-jan-2014', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 105 and dd.driver_no = 203; 
+insert into BUS_DRIVER_T select '12-jan-2016', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 106 and dd.driver_no = 202; 
+insert into BUS_DRIVER_T select '12-jan-2008', '2', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 106 and dd.driver_no = 204; 
+insert into BUS_DRIVER_T select '12-jan-2013', '1', ref(b), ref(dd) from Bus_t b, Driver_t dd 
+where b.Bus_no = 106 and dd.driver_no = 205; 
+ 
+-- DELETE FROM BUS_DRIVER_T;
+ 
+select * from Bus_Driver_t;
 
-insert into Route_t values(1, 'Dhanakawadi', 'Shivajinagar', 18);
-insert into Route_t values(2, 'Katraj', 'Shivajinagar', 20);
-insert into Route_t values(3, 'Katraj', 'Warje', 10);
-insert into Route_t values(4, 'Swargate', 'Hadapsar', 15);
-insert into Route_t values(5, 'Chinchwad', 'Corporation', 25);
-insert into Route_t values(6, 'Manapa', 'Shivajinagar', 2);
+-- DROP TABLE BUS_DRIVER_T;
+ 
+-- QUERIES 
+ 
+-- 1. Find out the drivers working in shift 1. 
+SELECT DISTINCT DRIVER_T.DRIVER_NAME FROM DRIVER_T, BUS_DRIVER_T WHERE DRIVER_T.DRIVER_NO = DEREF(DRIVER_V).DRIVER_NO AND BUS_DRIVER_T.SHIFT = '1';
 
-select * from Route_t;
+-- 2. Find out the route details on which buses of capacity 20 runs.
+SELECT ROUTE_T.*, BUS_T.CAP FROM ROUTE_T, BUS_T WHERE ROUTE_T.ROUTE_NO = DEREF(ROUTE).ROUTE_NO AND BUS_T.CAP = 20;
 
+-- 3. Find the names and their license no. of drivers working on 12-01-2008 in both the shifts.
+SELECT DRIVER_T.DRIVER_NAME, DRIVER_T.LICENSE_NO, BUS_DRIVER_T.SHIFT FROM DRIVER_T, BUS_DRIVER_T WHERE DRIVER_T.DRIVER_NO = DEREF(DRIVER_V).DRIVER_NO 
+AND BUS_DRIVER_T.DATE_OF_DUTY = '12-jan-2008' AND BUS_DRIVER_T.SHIFT = 1
+UNION
+SELECT DRIVER_T.DRIVER_NAME, DRIVER_T.LICENSE_NO, BUS_DRIVER_T.SHIFT FROM DRIVER_T, BUS_DRIVER_T WHERE DRIVER_T.DRIVER_NO = DEREF(DRIVER_V).DRIVER_NO 
+AND BUS_DRIVER_T.DATE_OF_DUTY = '12-jan-2008' AND BUS_DRIVER_T.SHIFT = 2
 
-create type Bus_1 as object(
-bus_no number, 
-cap number,
-depot_name varchar2(20),
-route ref Route_1);
+-- SELECT DRIVER_T.DRIVER_NAME, DRIVER_T.LICENSE_NO, BUS_DRIVER_T.SHIFT FROM DRIVER_T, BUS_DRIVER_T WHERE DRIVER_T.DRIVER_NO = DEREF(DRIVER_V).DRIVER_NO 
+-- AND BUS_DRIVER_T.DATE_OF_DUTY = '12-jan-2008' AND BUS_DRIVER_T.SHIFT = 1;
 
--- delete type Bus_1;
--- drop table Bus_t;
-create table Bus_t of Bus_1(bus_no primary key);
-
-ALTER TABLE Bus_t MODIFY(cap NOT NULL);
-
-describe Bus_t;
-
-insert into Bus_t select 101, 35, 'Dhanakawadi', REF(r) FROM Route_t r
-where r.src = 'Katraj';
-
-delete from Bus_t;
-
-select * from Bus_t;
+SELECT COUNT(*) FROM BUS_DRIVER_T;
