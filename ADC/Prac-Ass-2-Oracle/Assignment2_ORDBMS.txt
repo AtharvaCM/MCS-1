@@ -22,7 +22,7 @@ CAP NUMBER,
 DEPOT_NAME VARCHAR2(20), 
 ROUTE REF ROUTE_1); 
  
--- delete type Bus_1; 
+-- drop type Bus_1; 
 -- drop table Bus_t; 
 CREATE TABLE BUS_T OF BUS_1(BUS_NO PRIMARY KEY); 
  
@@ -142,3 +142,126 @@ AND BUS_DRIVER_T.DATE_OF_DUTY = '12-jan-2008' AND BUS_DRIVER_T.SHIFT = 2
 -- AND BUS_DRIVER_T.DATE_OF_DUTY = '12-jan-2008' AND BUS_DRIVER_T.SHIFT = 1;
 
 SELECT COUNT(*) FROM BUS_DRIVER_T;
+
+
+============================================================================================================================
+
+                                                            Q2
+
+============================================================================================================================
+
+
+-- policy(policy_name varchar(20) , min_age_limit integer , max_age_limit integer , 
+-- maturity_age integer , min_sum_assured integer , max_sum_assured integer ) ;
+
+create type policy1 as object(
+policy_name varchar2(20),
+min_age_limit int,
+max_age_limit int,
+maturity_age int,
+min_sum_assured int,
+max_sum_assured int);
+
+create table policy_t of policy1(policy_name primary key);
+
+-- drop table policy_t;
+-- drop type policy1;
+
+insert into policy_t values('Life Policy', 20, 60, 10, 40000, 80000);
+insert into policy_t values('Health Policy', 20, 45, 15, 500000, 700000);
+insert into policy_t values('Travel Policy', 23, 60, 10, 50000, 70000);
+insert into policy_t values('Motor Policy', 18, 60, 20, 70000, 80000);
+insert into policy_t values('Property Policy', 25, 60, 20, 700000, 800000);
+insert into policy_t values('j-a policy', 25, 60, 20, 700000, 800000);
+insert into policy_t values('j-b policy', 20, 60, 10, 50000, 89000);
+
+
+-- client(client_id integer , name varchar(25) , birth_date date ,nominee_name varchar(25)
+-- ,relation_with_client varchar(20));
+
+create type client1 as object(
+client_id int,
+client_name varchar2(25),
+birth_date date,
+nominee_name varchar2(25),
+relation_with_client varchar2(20));
+
+create table client_t of client1(client_id primary key);
+
+-- drop table client_t;
+-- drop type client1;
+
+insert into client_t values(101, 'Kunal Singh', '25-jun-1996', 'Anand Singh', 'Brother');
+insert into client_t values(102, 'Atharva Mahamuni', '08-nov-1990', 'Parth Mahajan', 'Brother');
+insert into client_t values(103, 'Rucha Mahamuni', '21-dec-1991', 'Simran Mahajan', 'Nephew');
+insert into client_t values(104, 'Aakash Pacherkar', '30-aug-1991', 'Kunal Singh', 'Friend');
+insert into client_t values(105, 'Rugvedi Jamgaonkar', '26-jan-1990', 'Atharva Mahamuni', 'Friend');
+insert into client_t values(106, 'Yash Negi', '26-jun-1990', 'Arti Singh', 'Friend');
+
+
+-- agent(agent_id integer , name varchar(25), license_no integer , branch_office
+-- varchar(20)) ;
+
+create type agent1 as object(
+agent_id int,
+agent_name varchar2(25),
+license_no int,
+branch_office varchar2(20));
+
+create table agent_t of agent1(agent_id primary key);
+
+-- drop table agent_t;
+-- drop type agent1;
+
+insert into agent_t values(201, 'Srot Singhal', 10001, 'Jiyanpur');
+insert into agent_t values(202, 'Harshita Thakur', 10002, 'Varansi');
+insert into agent_t values(203, 'Jammy', 10003, 'Hinjawadi');
+insert into agent_t values(204, 'Harshad Nits', 10004, 'Mumbai-1');
+insert into agent_t values(205, 'Shubhankar Kulkarni', 10005, 'Mumbai-1');
+insert into agent_t values(206, 'Sanjeev Sutar', 10006, 'Pune');
+
+
+-- Agent_client_policy(agent_id integer , client_id integer , policy_name varchar
+-- (20) , policy_no integer , premium decimal(7,2) , policy_date date , type varchar(20) ,
+-- sum_assured decimal(7,2) , term integer).
+
+create type agent_client_policy1 as object(
+agent_id_var ref agent1,
+client_id_var ref client1,
+policy_name_var ref policy1,
+policy_no int,
+premium decimal(7, 2),
+policy_date date,
+type_of_premium varchar2(20),
+sum_assured decimal(7, 2),
+term int);
+
+create table agent_client_policy_t of agent_client_policy1(
+type_of_premium check(type_of_premium = 'q' or type_of_premium = 'h' or type_of_premium = 'y'), 
+policy_no unique);
+
+describe agent_client_policy_t;
+
+-- drop table agent_client_policy_t;
+-- drop type agent_client_policy1;
+
+insert into agent_client_policy_t select ref(a), ref(c), ref(p), 2111, 30000.0, '1-mar-2003', 'q', 40000.0, 5  from
+agent_t a, client_t c, policy_t p where p.policy_name = 'j-a policy' and c.client_id = 101 and a.agent_id = 206;
+
+insert into agent_client_policy_t select ref(a), ref(c), ref(p), 2112, 35000.0, '1-mar-2004', 'q', 45000.0, 5  from
+agent_t a, client_t c, policy_t p where p.policy_name = 'j-b policy' and c.client_id = 102 and a.agent_id = 206;
+
+insert into agent_client_policy_t select ref(a), ref(c), ref(p), 2113, 20000.0, '3-jun-2003', 'h', 30000.0, 7  from
+agent_t a, client_t c, policy_t p where p.policy_name = 'j-a policy' and c.client_id = 103 and a.agent_id = 205;
+
+insert into agent_client_policy_t select ref(a), ref(c), ref(p), 2114, 30000.0, '9-sep-2000', 'y', 40000.0, 5  from
+agent_t a, client_t c, policy_t p where p.policy_name = 'j-b policy' and c.client_id = 104 and a.agent_id = 204;
+
+insert into agent_client_policy_t select ref(a), ref(c), ref(p), 2115, 44000.0, '8-jan-2005', 'q', 20000.0, 4  from
+agent_t a, client_t c, policy_t p where p.policy_name = 'Life Policy' and c.client_id = 101 and a.agent_id = 203;
+
+insert into agent_client_policy_t select ref(a), ref(c), ref(p), 2116, 24000.0, '8-aug-2005', 'y', 20000.0, 4  from
+agent_t a, client_t c, policy_t p where p.policy_name = 'Health Policy' and c.client_id = 105 and a.agent_id = 201;
+
+insert into agent_client_policy_t select ref(a), ref(c), ref(p), 2117, 35000.0, '10-mar-2004', 'h', 45000.0, 5  from
+agent_t a, client_t c, policy_t p where p.policy_name = 'j-b policy' and c.client_id = 102 and a.agent_id = 206;
