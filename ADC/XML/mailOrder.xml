@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mailorder>
+	<parts>
+		<part>
+			<pno>01</pno>
+			<pname>Brake Wire</pname>
+			<qoh>2</qoh>
+			<price>15.00</price>
+			<olevel>small</olevel>
+		</part>
+		<part>
+			<pno>02</pno>
+			<pname>Clutch plate</pname>
+			<qoh>3</qoh>
+			<price>51.00</price>
+			<olevel>medium</olevel>
+		</part>
+		<part>
+			<pno>03</pno>
+			<pname>Chain</pname>
+			<qoh>1</qoh>
+			<price>30.00</price>
+			<olevel>large</olevel>
+		</part>
+	</parts>
+
+	<customers>
+		<customer>
+			<cno>101</cno>
+			<cname>Jammy</cname>
+			<street>Mahatma street</street>
+			<zip>411002</zip>
+			<phone>9745927349</phone>
+		</customer>
+		<customer>
+			<cno>102</cno>
+			<cname>Kunal</cname>
+			<street>Z street</street>
+			<zip>411005</zip>
+			<phone>9448354349</phone>
+		</customer>
+		<customer>
+			<cno>103</cno>
+			<cname>Ravi</cname>
+			<street>Gandhi street</street>
+			<zip>411002</zip>
+			<phone>9345927349</phone>
+		</customer>
+	</customers>
+
+	<employees>
+		<employee>
+			<eno>1001</eno>
+			<ename>Aakash</ename>
+			<zip>411041</zip>
+			<hdate>12-5-2019</hdate>
+		</employee>
+		<employee>
+			<eno>1002</eno>
+			<ename>Manasvi</ename>
+			<zip>411042</zip>
+			<hdate>21-3-2019</hdate>
+		</employee>
+		<employee>
+			<eno>1003</eno>
+			<ename>Nachiket</ename>
+			<zip>411040</zip>
+			<hdate>17-6-2019</hdate>
+		</employee>
+	</employees>
+
+	<zipcodes>
+		<zipcode>
+			<zip>411002</zip>
+			<city>Pune</city>
+		</zipcode>
+		<zipcode>
+			<zip>411005</zip>
+			<city>Kolkata</city>
+		</zipcode>
+		<zipcode>
+			<zip>411041</zip>
+			<city>Wichita</city>
+		</zipcode>
+		<zipcode>
+			<zip>411042</zip>
+			<city>Goa</city>
+		</zipcode>
+		<zipcode>
+			<zip>411040</zip>
+			<city>Mumbai</city>
+		</zipcode>
+	</zipcodes>
+
+	<orders>
+		<order>
+			<ono>22801</ono>
+			<cno>101</cno>
+			<eno>1001</eno>
+			<recieved>2</recieved>
+			<shipped>1</shipped>
+		</order>
+		<order>
+			<ono>22802</ono>
+			<cno>102</cno>
+			<eno>1002</eno>
+			<recieved>2</recieved>
+			<shipped>2</shipped>
+		</order>
+		<order>
+			<ono>22803</ono>
+			<cno>101</cno>
+			<eno>1003</eno>
+			<recieved>3</recieved>
+			<shipped>1</shipped>
+		</order>
+	</orders>
+
+	<odetails>
+		<odetail>
+			<ono>22801</ono>
+			<pno>01</pno>
+			<qty>2</qty>
+		</odetail>
+		<odetail>
+			<ono>22802</ono>
+			<pno>02</pno>
+			<qty>1</qty>
+		</odetail>
+		<odetail>
+			<ono>22803</ono>
+			<pno>03</pno>
+			<qty>1</qty>
+		</odetail>
+	</odetails>
+</mailorder>
+
