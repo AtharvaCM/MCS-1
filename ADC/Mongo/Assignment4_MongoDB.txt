@@ -1,0 +1,1337 @@
+===================================================================================================================================================================
+Name :- Atharva Mahamuni
+Class :- Msc computer science I
+Subject :- Advanced Database Concept
+Enroll :- 2002242
+							    Assignment 4 - MongoDB
+===================================================================================================================================================================
+							(1) Company Employee Database: 
+===================================================================================================================================================================
+								Employee Collection
+===================================================================================================================================================================
+> db.employee.insert({ "Employee_ID":201, "First_Name":"Atharva", "Last_name":"Mahamuni", "Email":"Atharvaj18@gmail.com", "Phone_no":7410133135, "Address":{ "House_No":"A1", "Street":"Satararoad", "city":"pune", "state":"Maharashta", "Country":"INDIA", "Pin_code":411009, }, "Salary":84000, "Designation":"Manager", "Experience":"2yrs", "Date_Of_joining":"18-02-2020", "Birthdate":"18-04-2000" });
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.count();
+1
+
+> db.employee.find().pretty();
+{
+        "_id" : ObjectId("6034d14c5165c439bf617251"),
+        "Employee_ID" : 201,
+        "First_Name" : "Atharva",
+        "Last_name" : "Mahamuni",
+        "Email" : "Atharvaj18@gmail.com",
+        "Phone_no" : 7410133135,
+        "Address" : {
+                "House_No" : "A1",
+                "Street" : "Satararoad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411009
+        },
+        "Salary" : 84000,
+        "Designation" : "Manager",
+        "Experience" : "2yrs",
+        "Date_Of_joining" : "18-02-2020",
+        "Birthdate" : "18-04-2000"
+}
+===================================================================================================================================================================
+								Transaction Collection
+===================================================================================================================================================================
+> db.transaction.insert({ transaction_id:301 ,transaction_date:"15-02-2021", First_Name:"Atharva", Transaction_details:{item_id:"i101", item_name:"jeans", quantity:"1pcs", price:1000 }, Payment:{  Type_of_payment:"Debit",  Total_Amount_Paid:1000,  Payment_successful:"Yes" }, Remark:"Payment done by Debit card" });
+WriteResult({ "nInserted" : 1 })
+> db.transaction.find().pretty();
+{
+        "_id" : ObjectId("603f992b8cfbea9781d3aa26"),
+        "transaction_id" : 301,
+        "transaction_date" : "15-02-2021",
+        "First_Name" : "Atharva",
+        "Transaction_details" : {
+                "item_id" : "i101",
+                "item_name" : "jeans",
+                "quantity" : "1pcs",
+                "price" : 1000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 1000,
+                "Payment_successful" : "Yes"
+        },
+        "Remark" : "Payment done by Debit card"
+}
+===================================================================================================================================================================
+								***** QUERIES *****
+===================================================================================================================================================================
+1. Insert atleast 5 documents in 'Employee' collection.
+
+> db.employee.count();
+6
+===================================================================================================================================================================
+2.  Insert multiple documents (at least 10) into the ‘Transaction’ collection by passing an array of documents to the db.collection.insert () method. 
+
+> db.transaction.insert(
+...  [
+...    {transaction_id:302 ,Transaction_date:"18-02-2021",First_Name:"Kavita",
+...     Transaction_details:{item_id:"i102",item_name:"shirt",quantity:"1pcs",price:500},
+...     Payment:{Type_of_payment:"Cash",Total_Amount_Paid:500,Payment_successful:"Yes"}
+...    },
+...
+...    {transaction_id:303 ,Transaction_date:"20-02-2021",First_Name:"panda",
+...     Transaction_details:{item_id:"i103",item_name:"tshirt",quantity:"1pcs",price:700},
+...     Payment:{Type_of_payment:"Cash",Total_Amount_Paid:700,Payment_successful:"Yes"}
+...    },
+...
+...    {transaction_id:304 ,Transaction_date:"19-02-2021",First_Name:"priyanka",
+...     Transaction_details:{item_id:"i104",item_name:"skirt",quantity:"1pcs",price:900},
+...     Payment:{Type_of_payment:"Debit",Total_Amount_Paid:900,Payment_successful:"Yes", Remark:"Payment done by Debit card"}
+...    },
+...
+...    {transaction_id:305 ,Transaction_date:"21-02-2021",First_Name:"panda",
+...     Transaction_details:{item_id:"i105",item_name:"brush",quantity:"1pcs",price:100},
+...     Payment:{Type_of_payment:"Cash",Total_Amount_Paid:100,Payment_successful:"Yes"}
+...    },
+...
+...    {transaction_id:306 ,Transaction_date:"22-02-2021",First_Name:"deepika",
+...     Transaction_details:{item_id:"i106",item_name:"lehenga",quantity:"1pcs",price:8000},
+...     Payment:{Type_of_payment:"Credit",Total_Amount_Paid:8000,Payment_successful:"Yes", Remark:"Payment done by Credit card"}
+...    },
+...
+...   {transaction_id:307 ,Transaction_date:"16-02-2021",First_Name:"ranveer",
+...     Transaction_details:{item_id:"i107",item_name:"hoodie",quantity:"1pcs",price:4000},
+...     Payment:{Type_of_payment:"Debit",Total_Amount_Paid:4000,Payment_successful:"Yes", Remark:"Payment done by Debit card"}
+...    },
+...
+...    {transaction_id:308 ,Transaction_date:"23-02-2021",First_Name:"ranveer",
+...     Transaction_details:{item_id:"i108",item_name:"shirt",quantity:"1pcs",price:2000},
+...     Payment:{Type_of_payment:"Credit",Total_Amount_Paid:2000,Payment_successful:"Yes", Remark:"Payment done by Credit card"}
+...    },
+...
+...    {transaction_id:309 ,Transaction_date:"24-02-2021",First_Name:"deepika",
+...     Transaction_details:{item_id:"i109",item_name:"jeans",quantity:"1pcs",price:3000},
+...     Payment:{Type_of_payment:"Debit",Total_Amount_Paid:3000,Payment_successful:"Yes", Remark:"Payment done by Debit card"}
+...    },
+...
+...    {transaction_id:310 ,Transaction_date:"22-02-2021",First_Name:"panda",
+...     Transaction_details:{item_id:"i110",item_name:"table",quantity:"1pcs",price:1000},
+...     Payment:{Type_of_payment:"Cash",Total_Amount_Paid:1000,Payment_successful:"Yes"}
+...    },
+...
+...    {transaction_id:311 ,Transaction_date:"18-02-2021",First_Name:"deepika",
+...     Transaction_details:{item_id:"i111",item_name:"top",quantity:"1pcs",price:1000},
+...     Payment:{Type_of_payment:"Cash",Total_Amount_Paid:1000,Payment_successful:"Yes"}
+...    }
+...  ]
+...  );
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 10,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+===================================================================================================================================================================
+3. Display all the documents of both the collections in a formatted manner.
+
+									Employee Collection
+> db.employee.find().pretty();
+{
+        "_id" : ObjectId("6034d14c5165c439bf617251"),
+        "Employee_ID" : 201,
+        "First_Name" : "Atharva",
+        "Last_name" : "Mahamuni",
+        "Email" : "Atharvaj18@gmail.com",
+        "Phone_no" : 7410133135,
+        "Address" : {
+                "House_No" : "A1",
+                "Street" : "Satararoad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411009
+        },
+        "Salary" : 84000,
+        "Designation" : "Manager",
+        "Experience" : "2yrs",
+        "Date_Of_joining" : "18-02-2020",
+        "Birthdate" : "18-04-2000"
+}
+{
+        "_id" : ObjectId("6034d3190fd858085947b644"),
+        "Employee_ID" : 202,
+        "First_Name" : "Kavita",
+        "Last_name" : "Jam",
+        "Email" : "ram18@gmail.com",
+        "Phone_no" : 9410133135,
+        "Address" : {
+                "House_No" : "A2",
+                "Street" : "MGroad",
+                "city" : "satara",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411024
+        },
+        "Salary" : 4000,
+        "Designation" : "supervisior",
+        "Experience" : "0yrs",
+        "Date_Of_joining" : "19-02-2020",
+        "Birthdate" : "19-04-2000"
+}
+{
+        "_id" : ObjectId("6034d35d0fd858085947b645"),
+        "Employee_ID" : 203,
+        "First_Name" : "panda",
+        "Last_name" : "ole",
+        "Email" : "pandaole18@gmail.com",
+        "Phone_no" : 8410133135,
+        "Address" : {
+                "House_No" : "A3",
+                "Street" : "JMroad",
+                "city" : "baramati",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 6000,
+        "Designation" : "supervisior",
+        "Experience" : "3yrs",
+        "Date_Of_joining" : "20-02-2020",
+        "Birthdate" : "20-04-2000"
+}
+{
+        "_id" : ObjectId("6034d38b0fd858085947b646"),
+        "Employee_ID" : 204,
+        "First_Name" : "priyanka",
+        "Last_name" : "chopda",
+        "Email" : "priyac768@gmail.com",
+        "Phone_no" : 9910133135,
+        "Address" : {
+                "House_No" : "A4",
+                "Street" : "Marineroad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 60000,
+        "Designation" : "manager",
+        "Experience" : "5yrs",
+        "Date_Of_joining" : "03-03-2019",
+        "Birthdate" : "09-04-1996"
+}
+{
+        "_id" : ObjectId("6034d3b50fd858085947b647"),
+        "Employee_ID" : 205,
+        "First_Name" : "deepika",
+        "Last_name" : "padukone",
+        "Email" : "padukonedeepika5@gmail.com",
+        "Phone_no" : 7710133135,
+        "Address" : {
+                "House_No" : "A5",
+                "Street" : "JMroad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 90000,
+        "Designation" : "manager",
+        "Experience" : "2yrs",
+        "Date_Of_joining" : "18-02-2020",
+        "Birthdate" : "18-04-1995"
+}
+{
+        "_id" : ObjectId("6034d3ee0fd858085947b648"),
+        "Employee_ID" : 206,
+        "First_Name" : "ranveer",
+        "Last_name" : "singh",
+        "Email" : "rsingh18@gmail.com",
+        "Phone_no" : 9810133135,
+        "Address" : {
+                "House_No" : "A6",
+                "Street" : "SMroad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 3000,
+        "Designation" : "supervisior",
+        "Experience" : "1yrs",
+        "Date_Of_joining" : "02-08-2020",
+        "Birthdate" : "12-12-1997"
+}
+
+								Transaction Collection
+
+> db.transaction.find().pretty();
+{
+        "_id" : ObjectId("603f992b8cfbea9781d3aa26"),
+        "transaction_id" : 301,
+        "transaction_date" : "15-02-2021",
+        "First_Name" : "Atharva",
+        "Transaction_details" : {
+                "item_id" : "i101",
+                "item_name" : "jeans",
+                "quantity" : "1pcs",
+                "price" : 1000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 1000,
+                "Payment_successful" : "Yes"
+        },
+        "Remark" : "Payment done - by debit card"
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa27"),
+        "transaction_id" : 302,
+        "Transaction_date" : "18-02-2021",
+        "First_Name" : "Kavita",
+        "Transaction_details" : {
+                "item_id" : "i102",
+                "item_name" : "shirt",
+                "quantity" : "1pcs",
+                "price" : 500
+        },
+        "Payment" : {
+                "Type_of_payment" : "Cash",
+                "Total_Amount_Paid" : 500,
+                "Payment_successful" : "Yes"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa29"),
+        "transaction_id" : 304,
+        "Transaction_date" : "19-02-2021",
+        "First_Name" : "priyanka",
+        "Transaction_details" : {
+                "item_id" : "i104",
+                "item_name" : "skirt",
+                "quantity" : "1pcs",
+                "price" : 900
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 900,
+                "Payment_successful" : "Yes",
+                "Remark" : "Payment done by Debit card"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa2a"),
+        "transaction_id" : 305,
+        "Transaction_date" : "21-02-2021",
+        "First_Name" : "panda",
+        "Transaction_details" : {
+                "item_id" : "i105",
+                "item_name" : "brush",
+                "quantity" : "1pcs",
+                "price" : 100
+        },
+        "Payment" : {
+                "Type_of_payment" : "Cash",
+                "Total_Amount_Paid" : 100,
+                "Payment_successful" : "Yes"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa2b"),
+        "transaction_id" : 306,
+        "Transaction_date" : "22-02-2021",
+        "First_Name" : "deepika",
+        "Transaction_details" : {
+                "item_id" : "i106",
+                "item_name" : "lehenga",
+                "quantity" : "1pcs",
+                "price" : 8000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Credit",
+                "Total_Amount_Paid" : 8000,
+                "Payment_successful" : "Yes",
+                "Remark" : "Payment done by Credit card"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa2c"),
+        "transaction_id" : 307,
+        "Transaction_date" : "16-02-2021",
+        "First_Name" : "ranveer",
+        "Transaction_details" : {
+                "item_id" : "i107",
+                "item_name" : "hoodie",
+                "quantity" : "1pcs",
+                "price" : 4000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 4000,
+                "Payment_successful" : "Yes",
+                "Remark" : "Payment done by Debit card"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa2d"),
+        "transaction_id" : 308,
+        "Transaction_date" : "23-02-2021",
+        "First_Name" : "ranveer",
+        "Transaction_details" : {
+                "item_id" : "i108",
+                "item_name" : "shirt",
+                "quantity" : "1pcs",
+                "price" : 2000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Credit",
+                "Total_Amount_Paid" : 2000,
+                "Payment_successful" : "Yes",
+                "Remark" : "Payment done by Credit card"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa2e"),
+        "transaction_id" : 309,
+        "Transaction_date" : "24-02-2021",
+        "First_Name" : "deepika",
+        "Transaction_details" : {
+                "item_id" : "i109",
+                "item_name" : "jeans",
+                "quantity" : "1pcs",
+                "price" : 3000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 3000,
+                "Payment_successful" : "Yes",
+                "Remark" : "Payment done by Debit card"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa2f"),
+        "transaction_id" : 310,
+        "Transaction_date" : "22-02-2021",
+        "First_Name" : "panda",
+        "Transaction_details" : {
+                "item_id" : "i110",
+                "item_name" : "table",
+                "quantity" : "1pcs",
+                "price" : 1000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Cash",
+                "Total_Amount_Paid" : 1000,
+                "Payment_successful" : "Yes"
+        }
+}
+{
+        "_id" : ObjectId("603f99678cfbea9781d3aa30"),
+        "transaction_id" : 311,
+        "Transaction_date" : "18-02-2021",
+        "First_Name" : "deepika",
+        "Transaction_details" : {
+                "item_id" : "i111",
+                "item_name" : "top",
+                "quantity" : "1pcs",
+                "price" : 1000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Cash",
+                "Total_Amount_Paid" : 1000,
+                "Payment_successful" : "Yes"
+        }
+}
+{
+        "_id" : ObjectId("603fc4d2e4c2e5c44ea3860e"),
+        "transaction_id" : 301,
+        "transaction_date" : "15-02-2021",
+        "First_Name" : "Atharva",
+        "Transaction_details" : {
+                "item_id" : "i101",
+                "item_name" : "jeans",
+                "quantity" : "1pcs",
+                "price" : 1000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 1000,
+                "Payment_successful" : "Yes"
+        },
+        "Remark" : "Payment done by Debit card"
+}
+{
+        "_id" : ObjectId("603fc541e4c2e5c44ea3860f"),
+        "transaction_id" : 312,
+        "transaction_date" : "15-02-2021",
+        "First_Name" : "Rugs",
+        "Transaction_details" : {
+                "item_id" : "i112",
+                "item_name" : "jeans",
+                "quantity" : "1pcs",
+                "price" : 1000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 1000,
+                "Payment_successful" : "Yes"
+        },
+        "Remark" : "Payment done by Debit card"
+}
+===================================================================================================================================================================
+4. Update salary of all employees by giving an increment of Rs. 4000.
+
+> db.employee.updateMany({},{$inc:{Salary:4000}});
+{ "acknowledged" : true, "matchedCount" : 6, "modifiedCount" : 6 }
+
+> db.employee.find().pretty();
+{
+        "_id" : ObjectId("6034d14c5165c439bf617251"),
+        "Employee_ID" : 201,
+        "First_Name" : "Atharva",
+        "Last_name" : "Mahamuni",
+        "Email" : "Atharvaj18@gmail.com",
+        "Phone_no" : 7410133135,
+        "Address" : {
+                "House_No" : "A1",
+                "Street" : "Satararoad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411009
+        },
+        "Salary" : 88000,
+        "Designation" : "Manager",
+        "Experience" : "2yrs",
+        "Date_Of_joining" : "18-02-2020",
+        "Birthdate" : "18-04-2000"
+}
+{
+        "_id" : ObjectId("6034d3190fd858085947b644"),
+        "Employee_ID" : 202,
+        "First_Name" : "Kavita",
+        "Last_name" : "Jam",
+        "Email" : "ram18@gmail.com",
+        "Phone_no" : 9410133135,
+        "Address" : {
+                "House_No" : "A2",
+                "Street" : "MGroad",
+                "city" : "satara",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411024
+        },
+        "Salary" : 8000,
+        "Designation" : "supervisior",
+        "Experience" : "0yrs",
+        "Date_Of_joining" : "19-02-2020",
+        "Birthdate" : "19-04-2000"
+}
+{
+        "_id" : ObjectId("6034d35d0fd858085947b645"),
+        "Employee_ID" : 203,
+        "First_Name" : "panda",
+        "Last_name" : "ole",
+        "Email" : "pandaole18@gmail.com",
+        "Phone_no" : 8410133135,
+        "Address" : {
+                "House_No" : "A3",
+                "Street" : "JMroad",
+                "city" : "baramati",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 10000,
+        "Designation" : "supervisior",
+        "Experience" : "3yrs",
+        "Date_Of_joining" : "20-02-2020",
+        "Birthdate" : "20-04-2000"
+}
+{
+        "_id" : ObjectId("6034d38b0fd858085947b646"),
+        "Employee_ID" : 204,
+        "First_Name" : "priyanka",
+        "Last_name" : "chopda",
+        "Email" : "priyac768@gmail.com",
+        "Phone_no" : 9910133135,
+        "Address" : {
+                "House_No" : "A4",
+                "Street" : "Marineroad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 64000,
+        "Designation" : "manager",
+        "Experience" : "5yrs",
+        "Date_Of_joining" : "03-03-2019",
+        "Birthdate" : "09-04-1996"
+}
+{
+        "_id" : ObjectId("6034d3b50fd858085947b647"),
+        "Employee_ID" : 205,
+        "First_Name" : "deepika",
+        "Last_name" : "padukone",
+        "Email" : "padukonedeepika5@gmail.com",
+        "Phone_no" : 7710133135,
+        "Address" : {
+                "House_No" : "A5",
+                "Street" : "JMroad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 94000,
+        "Designation" : "manager",
+        "Experience" : "2yrs",
+        "Date_Of_joining" : "18-02-2020",
+        "Birthdate" : "18-04-1995"
+}
+{
+        "_id" : ObjectId("6034d3ee0fd858085947b648"),
+        "Employee_ID" : 206,
+        "First_Name" : "ranveer",
+        "Last_name" : "singh",
+        "Email" : "rsingh18@gmail.com",
+        "Phone_no" : 9810133135,
+        "Address" : {
+                "House_No" : "A6",
+                "Street" : "SMroad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 7000,
+        "Designation" : "supervisior",
+        "Experience" : "1yrs",
+        "Date_Of_joining" : "02-08-2020",
+        "Birthdate" : "12-12-1997"
+}
+===================================================================================================================================================================
+5. Update the remark for transaction id 201.
+
+> db.transaction.update({transaction_id:301},{$set:{"Remark":"Payment done - by debit card"}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.transaction.find({transaction_id:301}).pretty();
+{
+        "_id" : ObjectId("603f992b8cfbea9781d3aa26"),
+        "transaction_id" : 301,
+        "transaction_date" : "15-02-2021",
+        "First_Name" : "Atharva",
+        "Transaction_details" : {
+                "item_id" : "i101",
+                "item_name" : "jeans",
+                "quantity" : "1pcs",
+                "price" : 1000
+        },
+        "Payment" : {
+                "Type_of_payment" : "Debit",
+                "Total_Amount_Paid" : 1000,
+                "Payment_successful" : "Yes"
+        },
+        "Remark" : "Payment done - by debit card"
+}
+===================================================================================================================================================================
+6. Update designation of an employee named “_ ” from supervisor to manager. 
+
+> db.employee.update({First_Name:"ranveer"},{$set:{Designation:"manager"}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.employee.find().pretty();
+{
+        "_id" : ObjectId("6034d3ee0fd858085947b648"),
+        "Employee_ID" : 206,
+        "First_Name" : "ranveer",
+        "Last_name" : "singh",
+        "Email" : "rsingh18@gmail.com",
+        "Phone_no" : 9810133135,
+        "Address" : {
+                "House_No" : "A6",
+                "Street" : "SMroad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 7000,
+        "Experience" : "1yrs",
+        "Date_Of_joining" : "02-08-2020",
+        "Birthdate" : "12-12-1997",
+        "Designation" : "manager"
+}
+===================================================================================================================================================================
+7. Update designation of an employee having Employee Id as . 
+
+> db.employee.update({Employee_ID:203},{$set:{Designation:"manager"}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.employee.find().pretty();
+{
+        "_id" : ObjectId("6034d35d0fd858085947b645"),
+        "Employee_ID" : 203,
+        "First_Name" : "panda",
+        "Last_name" : "ole",
+        "Email" : "pandaole18@gmail.com",
+        "Phone_no" : 8410133135,
+        "Address" : {
+                "House_No" : "A3",
+                "Street" : "JMroad",
+                "city" : "baramati",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411014
+        },
+        "Salary" : 10000,
+        "Designation" : "manager",
+        "Experience" : "3yrs",
+        "Date_Of_joining" : "20-02-2020",
+        "Birthdate" : "20-04-2000"
+}
+===================================================================================================================================================================
+8. Change the address of an employee having Employee Id as .
+
+> db.employee.find(Employee_ID).pretty();
+{
+        "_id" : ObjectId("6034d14c5165c439bf617251"),
+        "Employee_ID" : 201,
+        "First_Name" : "Atharva",
+        "Last_name" : "Mahamuni",
+        "Email" : "Atharvaj18@gmail.com",
+        "Phone_no" : 7410133135,
+        "Address" : {
+                "House_No" : "A1",
+                "Street" : "Satararoad",
+                "city" : "pune",
+                "state" : "Maharashta",
+                "Country" : "INDIA",
+                "Pin_code" : 411009
+        },
+        "Salary" : 88000,
+        "Designation" : "Manager",
+        "Experience" : "2yrs",
+        "Date_Of_joining" : "18-02-2020",
+        "Birthdate" : "18-04-2000"
+}
+
+> db.employee.update({Employee_ID:201},{$set:{Address:{House_No:"A11",Street:"sataraaa road",city:"pune",state:"Gujrat",Country:"USA",Pin_code:411009}}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.employee.find(Employee_ID:201).pretty();
+{
+        "_id" : ObjectId("6034d14c5165c439bf617251"),
+        "Employee_ID" : 201,
+        "First_Name" : "Atharva",
+        "Last_name" : "Mahamuni",
+        "Email" : "Atharvaj18@gmail.com",
+        "Phone_no" : 7410133135,
+        "Address" : {
+                "House_No" : "A11",
+                "Street" : "satara road",
+                "city" : "pune",
+                "state" : "Maharashtra",
+                "Country" : "INDIA",
+                "Pin_code" : 411009
+        },
+        "Salary" : 88000,
+        "Designation" : "Manager",
+        "Experience" : "2yrs",
+        "Date_Of_joining" : "18-02-2020",
+        "Birthdate" : "18-04-2000"
+}
+===================================================================================================================================================================
+9. Delete transaction made by “ ” employee on the given date. 
+
+> db.transaction.count();
+11
+
+> db.transaction.remove({ $and: [ { First_Name: "panda"} , {Transaction_date:"20-02-2021"} ]});
+WriteResult({ "nRemoved" : 1 })
+
+> db.transaction.count();
+10
+===================================================================================================================================================================
+10. Delete all the employees whose first name starts with ‘K’. 
+
+> db.employee.count();
+6
+
+> db.employee.remove({First_Name:{$regex:'^K'}});
+WriteResult({ "nRemoved" : 1 })
+
+> db.employee.count();
+5
+
+===================================================================================================================================================================
+							(MongoDB Aggregate framework based queries) 
+===================================================================================================================================================================
+1. Find employees having designation as either ‘manager’ or ‘floor supervisor’. 
+
+> db.employee.aggregate([{$project:{Designation:1, result: {$or:[{"Designation":"manager"},{"Designation":"supervisior"}]} }}]);
+{ "_id" : ObjectId("6034d35d0fd858085947b645"), "Designation" : "manager", "result" : true }
+{ "_id" : ObjectId("6034d38b0fd858085947b646"), "Designation" : "manager", "result" : true }
+{ "_id" : ObjectId("6034d3b50fd858085947b647"), "Designation" : "manager", "result" : true }
+{ "_id" : ObjectId("6034d3ee0fd858085947b648"), "Designation" : "manager", "result" : true }
+{ "_id" : ObjectId("6038b4c23fd50b52aa694d6a"), "Designation" : "legal", "result" : true }
+ 
+===================================================================================================================================================================
+2. Find an employee whose name ends with " " and print the output in json format.  
+
+> db.employee.aggregate([ {$project: { First_Name:1 ,returnObject: { $regexFind: { input: "$First_Name", regex: /i$/} }}} ]);
+{ "_id" : ObjectId("6034d14c5165c439bf617251"), "First_Name" : "Atharva", "returnObject" : { "match" : "i", "idx" : 6, "captures" : [ ] } }
+{ "_id" : ObjectId("6034d35d0fd858085947b645"), "First_Name" : "panda", "returnObject" : null }
+{ "_id" : ObjectId("6034d38b0fd858085947b646"), "First_Name" : "priyanka", "returnObject" : null }
+{ "_id" : ObjectId("6034d3b50fd858085947b647"), "First_Name" : "deepika", "returnObject" : null }
+{ "_id" : ObjectId("6034d3ee0fd858085947b648"), "First_Name" : "ranveer", "returnObject" : null }
+
+===================================================================================================================================================================
+3. Display the name of an employee whose salary is greater than using a MongoDB cursor. 
+
+> db.employee.aggregate([{ $match: {Salary:{$gt:20000}}}, { $group: {_id: "$First_Name" }}],{cursor : {batchSize: 0}});
+{ "_id" : "Atharva" }
+{ "_id" : "deepika" }
+{ "_id" : "priyanka" }
+===================================================================================================================================================================
+4. Sort the employees in the descending order of their salary. 
+
+> db.employee.aggregate([ { $project: { First_Name:1,Salary:1 }}, { $sort : { Salary : -1 } } ]);
+{ "_id" : ObjectId("6034d3b50fd858085947b647"), "First_Name" : "deepika", "Salary" : 94000 }
+{ "_id" : ObjectId("6034d14c5165c439bf617251"), "First_Name" : "Atharva", "Salary" : 88000 }
+{ "_id" : ObjectId("6038b4c23fd50b52aa694d6a"), "First_Name" : "Atharva", "Salary" : 84000 }
+{ "_id" : ObjectId("6034d38b0fd858085947b646"), "First_Name" : "priyanka", "Salary" : 64000 }
+{ "_id" : ObjectId("6034d35d0fd858085947b645"), "First_Name" : "panda", "Salary" : 10000 }
+{ "_id" : ObjectId("6034d3ee0fd858085947b648"), "First_Name" : "ranveer", "Salary" : 7000 }
+===================================================================================================================================================================
+5. Count the total number of employees in a collection.
+
+> db.employee.aggregate({$count:"Salary"});
+{ "Salary" : 5 }
+===================================================================================================================================================================
+6. Calculate the sum of total amount paid for all the transaction documents. 
+
+> db.transaction.aggregate([
+...   {
+...     $group: {
+...       _id: null,
+...       TotalBalance: {
+...         $sum: "$Payment.Total_Amount_Paid"
+...       }
+...     }
+...   }
+... ]);
+{ "_id" : null, "TotalBalance" : 15200 }
+===================================================================================================================================================================
+7. Calculate the sum of total amount paid for each payment type.  
+
+>  db.transaction.aggregate([{$group : {_id : "$Payment.Type_of_payment",total :{$sum : "$Payment.Total_Amount_Paid"}}}]);
+{ "_id" : "Debit", "total" : 8900 }
+{ "_id" : "Cash", "total" : 2600 }
+{ "_id" : "Credit", "total" : 10000 }
+===================================================================================================================================================================
+8. Find the transaction id of the latest transaction.
+   
+> db.transaction.aggregate([  { $sort : { Transaction_date : 1 }},{ $project: { First_Name:1,Transaction_date:1 }} ]);
+{ "_id" : ObjectId("603f992b8cfbea9781d3aa26"), "First_Name" : "Atharva" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa2c"), "Transaction_date" : "16-02-2021", "First_Name" : "ranveer" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa27"), "Transaction_date" : "18-02-2021", "First_Name" : "Kavita" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa30"), "Transaction_date" : "18-02-2021", "First_Name" : "deepika" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa29"), "Transaction_date" : "19-02-2021", "First_Name" : "priyanka" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa2a"), "Transaction_date" : "21-02-2021", "First_Name" : "panda" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa2b"), "Transaction_date" : "22-02-2021", "First_Name" : "deepika" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa2f"), "Transaction_date" : "22-02-2021", "First_Name" : "panda" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa2d"), "Transaction_date" : "23-02-2021", "First_Name" : "ranveer" }
+{ "_id" : ObjectId("603f99678cfbea9781d3aa2e"), "Transaction_date" : "24-02-2021", "First_Name" : "deepika" }
+
+> db.transaction.aggregate( [ { $sort : { Transaction_date : 1 }}, { $group: { _id : null, lastDate : { $last : "$Transaction_date" } } } ] );
+{ "_id" : null, "lastDate" : "24-02-2021" }
+===================================================================================================================================================================
+9. Find designation of employees who have made transaction of amount greater than Rs. 500. 
+
+> var transactionData = db.transaction.find({"Payment.Total_Amount_Paid":{$gt:3000}})
+> transactionData.forEach(function(item) {     var name = item.First_Name;     db.employee.find({         "First_Name": name     }).forEach(function(emp) {         print("Name : ",emp.First_Name);         print("Designation : ",emp.Designation);   print("Amount :",item.Payment.Total_Amount_Paid);  }); });
+
+Name :  deepika
+Designation :  manager
+Amount : 8000
+Name :  ranveer
+Designation :  manager
+Amount : 4000
+
+> var transactionData = db.transaction.find({"Payment.Total_Amount_Paid":{$gt:500}})
+> transactionData.forEach(function(item) {     var name = item.First_Name;     db.employee.find({         "First_Name": name     }).forEach(function(emp) {         print("Name : ",emp.First_Name);         print("Designation : ",emp.Designation);   print("Amount :",item.Payment.Total_Amount_Paid);  }); });
+
+Name :  Atharva
+Designation :  legal
+Amount : 1000
+Name :  priyanka
+Designation :  manager
+Amount : 900
+Name :  deepika
+Designation :  manager
+Amount : 8000
+Name :  ranveer
+Designation :  manager
+Amount : 4000
+Name :  ranveer
+Designation :  manager
+Amount : 2000
+Name :  deepika
+Designation :  manager
+Amount : 3000
+Name :  panda
+Designation :  manager
+Amount : 1000
+Name :  deepika
+Designation :  manager
+Amount : 1000
+===================================================================================================================================================================
+10. Find the total quantity of a particular item sold using Map Reduce. 
+
+> var mapFunction = function() { emit (this.Transaction_details.item_name , this.Transaction_details.quantity) };
+> var reduceFunction = function(i_name,qu){return Array.sum(qu)};
+> db.transaction.mapReduce( mapFunction , reduceFunction , {out: "quantity_of_item" } );
+{ "result" : "quantity_of_item", "ok" : 1 }
+> db.quantity_of_item.find()
+{ "_id" : "shirt", "value" : "1pcs1pcs" }
+{ "_id" : "lehenga", "value" : "1pcs" }
+{ "_id" : "hoodie", "value" : "1pcs" }
+{ "_id" : "table", "value" : "1pcs" }
+{ "_id" : "top", "value" : "1pcs" }
+{ "_id" : "skirt", "value" : "1pcs" }
+{ "_id" : "jeans", "value" : "1pcs1pcs1pcs1pcs" }
+{ "_id" : "brush", "value" : "1pcs" }
+===================================================================================================================================================================
+===================================================================================================================================================================
+								 (2) Movie Database 
+===================================================================================================================================================================
+								   Film Collection
+===================================================================================================================================================================  
+
+1. Insert at least 10 documents in the collection Film –  
+
+db.Film.insertMany([
+
+{ Film_Id : 1 , Title : "Dabang" , Year_of_release : 2010 , Category : ["Action"] , Actors : [{First_name : " Salman " , Last_name : " Khan " }] , Directors : [{ First_name : " Abhinav " , Last_lame : " Kashyap "}] , Release_details : [{ Release_place : " India " , Release_date : new Date("2010-09-10") , Ratings : "C" },{ Release_place : " USA " , Release_date : new Date("2010-09-11") , Ratings : "B" }]
+},
+
+{ Film_Id : 10 , Title : " Udta Punjab " , Year_of_release : 2002 , Category : ["Action"] , Actors : [{First_name : " Shahid " , Last_name : " Kapoor " },{First_name : " Alia " , Last_name : " Bhatt " }] , Directors : [{ First_name : " Abhishek " , Last_lame : " Chaaubey "}] , Release_details : { Release_place : " India " , Release_date : new Date("2016-06-17") , Ratings : "C" }
+},
+
+]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("604200f853b31d43b7124ae3"),
+                ObjectId("604200f853b31d43b7124ae4"),
+                ObjectId("604200f853b31d43b7124ae5"),
+                ObjectId("604200f853b31d43b7124ae6"),
+                ObjectId("604200f853b31d43b7124ae7"),
+                ObjectId("604200f853b31d43b7124ae8"),
+                ObjectId("604200f853b31d43b7124ae9"),
+                ObjectId("604200f853b31d43b7124aea"),
+                ObjectId("604200f853b31d43b7124aeb"),
+                ObjectId("604200f853b31d43b7124aec")
+        ]
+}
+
+===================================================================================================================================================================
+a. Insert at least one document with film belonging to two genres.
+
+{ Film_Id : 5 , Title : "Hobbit" , Year_of_release : 2012 , Category : ["Adventure","Thriller"] , Actors : [{First_name : " Richard " , Last_name : " Armitage " },{First_name : " Ian " , Last_name : " McKellen " }] , Directors : [{ First_name : " Peter " , Last_lame : " Jackson "}] , Release_details : { Release_place : " Cali " , Release_date : new Date("2012-12-14") , Ratings : "B" }
+}
+
+{ Film_Id : 8 , Title : "Iron Man 3" , Year_of_release : 2013 , Category : ["Action","Sci-fi"] , Actors : [{First_name : " Robert " , Last_name : " Downey Jr" }] , Directors : [{ First_name : " Shane " , Last_lame : " Black "}] , Release_details : { Release_place : " India " , Release_date : new Date("2013-04-26") , Ratings : "A"}
+}
+
+{ Film_Id : 9 , Title : "Avengers : End Game " , Year_of_release : 2019 , Category : ["Action","Sci-fi"] , Actors : [{First_name : " Robert " , Last_name : " Downey Jr " },{First_name : " Chris " , Last_name : " Evans " }] , Directors : [{ First_name : " Joe " , Last_lame : " Russo "},{First_name : " Anthony " , Last_name : " Russo " }] , Release_details : { Release_place : " India " , Release_date : new Date("2019-04-26") , Ratings : "A" }
+}
+===================================================================================================================================================================
+b. Insert at least one document with film that is released at more than one place and on two different dates.
+
+{ Film_Id : 1 , Title : "Dabang" , Year_of_release : 2010 , Category : ["Action"] , Actors : [{First_name : " Salman " , Last_name : " Khan " }] , Directors : [{ First_name : " Abhinav " , Last_lame : " Kashyap "}] , Release_details : [{ Release_place : " India " , Release_date : new Date("2010-09-10") , Ratings : "C" },{ Release_place : " USA " , Release_date : new Date("2010-09-11") , Ratings : "B" }]
+}
+===================================================================================================================================================================
+c. Insert at least three documents with the films released in the same year.
+
+{ Film_Id : 2 , Title : "Devdas" , Year_of_release : 2002 , Category : ["Romantic"] , Actors : [{First_name : " Shahrukh " , Last_name : " Khan " },{FirstName : " Madhuri " , LastName : " Dixit " }] , Directors : [{ First_name : " Sanjay " , Last_lame : " Bhansali "}] , Release_details : { Release_place : " Mumbai " , Release_date : new Date("2002-07-12") , Ratings : "B" }
+}
+
+
+{ Film_Id : 7 , Title : "Terminator" , Year_of_release : 2002 , Category : ["Action"] , Actors : [{First_name : " Arnold " , Last_name : " S " },{First_name : " Linda " , Last_name : " Hamilton " }] , Directors : [{ First_name : " James " , Last_lame : " Cameron "}] , Release_details : { Release_place : " USA " , Release_date : new Date("1984-06-26") , Ratings : "A" }
+}
+
+
+{ Film_Id : 10 , Title : " Udta Punjab " , Year_of_release : 2002 , Category : ["Action"] , Actors : [{First_name : " Shahid " , Last_name : " Kapoor " },{First_name : " Alia " , Last_name : " Bhatt " }] , Directors : [{ First_name : " Abhishek " , Last_lame : " Chaaubey "}] , Release_details : { Release_place : " India " , Release_date : new Date("2016-06-17") , Ratings : "C" }
+}
+===================================================================================================================================================================
+d. Insert at least two documents with the films directed by one director.
+
+{ Film_Id : 4 , Title : "The Lord of the Rings" , Year_of_release : 2011 , Category : ["Advanture","Thriller"] , Actors : [{First_name : " Elijah ", Last_name : " Wood" },{ FirstName :"Orlando" , LastName : "Bloom " }] , Directors : [{ First_name : " Peter " , Last_lame : " Jackson "}] , Release_details : { Release_place : " India " , Release_date : new Date("2011-03-15") , Ratings : "A" }
+}
+
+{ Film_Id : 5 , Title : "Hobbit" , Year_of_release : 2012 , Category : ["Adventure","Thriller"] , Actors : [{First_name : " Richard " , Last_name : " Armitage " },{First_name : " Ian " , Last_name : " McKellen " }] , Directors : [{ First_name : " Peter " , Last_lame : " Jackson "}] , Release_details : { Release_place : " Cali " , Release_date : new Date("2012-12-14") , Ratings : "B" }
+}
+===================================================================================================================================================================
+e. Insert at least two documents with films those are acted by a pair ‘Madhuri Dixit’ and  ‘Shahrukh Khan’.
+
+{ Film_Id : 2 , Title : "Devdas" , Year_of_release : 2002 , Category : ["Romantic"] , Actors : [{First_name : " Shahrukh " , Last_name : " Khan " },{FirstName : " Madhuri " , LastName : " Dixit " }] , Directors : [{ First_name : " Sanjay " , Last_lame : " Bhansali "}] , Release_details : { Release_place : " Mumbai " , Release_date : new Date("2002-07-12") , Ratings : "B" }
+}
+
+{ Film_Id : 3 , Title : "Kurbaan" , Year_of_release : 2009 , Category : ["Thriller"] , Actors : [{First_name : " Shahrukh " , Last_name : " Khan " },{FirstName : " Madhuri " , LastName : " Dixit " }] , Directors : [{ First_name : " Rensil " , Last_lame : " Silva "}] , Release_details : { Release_place : " Mumbai " , Release_date : new Date("2009-11-20") , Ratings : "A" }
+}
+===================================================================================================================================================================
+2. Insert at least 10 documents in the collection Actor.
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("60421aa153b31d43b7124aed"),
+                ObjectId("60421aa153b31d43b7124aee"),
+                ObjectId("60421aa153b31d43b7124aef"),
+                ObjectId("60421aa153b31d43b7124af0"),
+                ObjectId("60421aa153b31d43b7124af1"),
+                ObjectId("60421aa153b31d43b7124af2"),
+                ObjectId("60421aa153b31d43b7124af3"),
+                ObjectId("60421aa153b31d43b7124af4"),
+                ObjectId("60421aa153b31d43b7124af5"),
+                ObjectId("60421aa153b31d43b7124af6")
+        ]
+}
+====================================================================================================================================================================
+3. Display all the documents inserted in both the collections.
+
+> db.Film.find();
+
+{ "_id" : ObjectId("604200f853b31d43b7124ae3"), "Film_Id" : 1, "Title" : "Dabang", "Year_of_release" : 2010, "Category" : [ "Action" ], "Actors" : [ { "First_name" : " Salman ", "Last_name" : " Khan " } ], "Directors" : [ { "First_name" : " Abhinav ", "Last_lame" : " Kashyap " } ], "Release_details" : [ { "Release_place" : " India ", "Release_date" : ISODate("2010-09-10T00:00:00Z"), "Ratings" : "C" }, { "Release_place" : " USA ", "Release_date" : ISODate("2010-09-11T00:00:00Z"), "Ratings" : "B" } ] }
+{ "_id" : ObjectId("604200f853b31d43b7124ae4"), "Film_Id" : 2, "Title" : "Devdas", "Year_of_release" : 2002, "Category" : [ "Romantic" ], "Actors" : [ { "First_name" : " Shahrukh ", "Last_name" : " Khan " }, { "FirstName" : " Madhuri ", "LastName" : " Dixit " } ], "Directors" : [ { "First_name" : " Sanjay ", "Last_lame" : " Bhansali " } ], "Release_details" : { "Release_place" : " Mumbai ", "Release_date" : ISODate("2002-07-12T00:00:00Z"), "Ratings" : "B" } }
+{ "_id" : ObjectId("604200f853b31d43b7124ae5"), "Film_Id" : 3, "Title" : "Kurbaan", "Year_of_release" : 2009, "Category" : [ "Thriller" ], "Actors" : [ { "First_name" : " Shahrukh ", "Last_name" : " Khan " }, { "FirstName" : " Madhuri ", "LastName" : " Dixit " } ], "Directors" : [ { "First_name" : " Rensil ", "Last_lame" : " Silva " } ], "Release_details" : { "Release_place" : " Mumbai ", "Release_date" : ISODate("2009-11-20T00:00:00Z"), "Ratings" : "A" } }
+{ "_id" : ObjectId("604200f853b31d43b7124ae6"), "Film_Id" : 4, "Title" : "The Lord of the Rings", "Year_of_release" : 2011, "Category" : [ "Advanture", "Thriller" ], "Actors" : [ { "First_name" : " Elijah ", "Last_name" : " Wood" }, { "FirstName" : "Orlando", "LastName" : "Bloom " } ], "Directors" : [ { "First_name" : " Peter ", "Last_lame" : " Jackson " } ], "Release_details" : { "Release_place" : " India ", "Release_date" : ISODate("2011-03-15T00:00:00Z"), "Ratings" : "A" } }
+{ "_id" : ObjectId("604200f853b31d43b7124ae7"), "Film_Id" : 5, "Title" : "Hobbit", "Year_of_release" : 2012, "Category" : [ "Adventure", "Thriller" ], "Actors" : [ { "First_name" : " Richard ", "Last_name" : " Armitage " }, { "First_name" : " Ian ", "Last_name" : " McKellen " } ], "Directors" : [ { "First_name" : " Peter ", "Last_lame" : " Jackson " } ], "Release_details" : { "Release_place" : " Cali ", "Release_date" : ISODate("2012-12-14T00:00:00Z"), "Ratings" : "B" } }
+{ "_id" : ObjectId("604200f853b31d43b7124ae8"), "Film_Id" : 6, "Title" : "Tum Mile", "Year_of_release" : 2008, "Category" : [ "Romantic" ], "Actors" : [ { "First_name" : " Emraan ", "Last_name" : " Hashmi " }, { "FirstName" : " Soha  ", "LastName" : " Khan " } ], "Directors" : [ { "First_name" : " Kunal ", "Last_lame" : " Deshmukh " } ], "Release_details" : { "Release_place" : " Mumbai ", "Release_date" : ISODate("2008-12-13T00:00:00Z"), "Ratings" : "B" } }
+{ "_id" : ObjectId("604200f853b31d43b7124ae9"), "Film_Id" : 7, "Title" : "Terminator", "Year_of_release" : 2002, "Category" : [ "Action" ], "Actors" : [ { "First_name" : " Arnold ", "Last_name" : " S " }, { "First_name" : " Linda ", "Last_name" : " Hamilton " } ], "Directors" : [ { "First_name" : " James ", "Last_lame" : " Cameron " } ], "Release_details" : { "Release_place" : " USA ", "Release_date" : ISODate("1984-06-26T00:00:00Z"), "Ratings" : "A" } }
+{ "_id" : ObjectId("604200f853b31d43b7124aea"), "Film_Id" : 8, "Title" : "Iron Man 3", "Year_of_release" : 2013, "Category" : [ "Action", "Sci-fi" ], "Actors" : [ { "First_name" : " Robert ", "Last_name" : " Downey Jr" } ], "Directors" : [ { "First_name" : " Shane ", "Last_lame" : " Black " } ], "Release_details" : { "Release_place" : " India ", "Release_date" : ISODate("2013-04-26T00:00:00Z"), "Ratings" : "A" } }
+{ "_id" : ObjectId("604200f853b31d43b7124aeb"), "Film_Id" : 9, "Title" : "Avengers : End Game ", "Year_of_release" : 2019, "Category" : [ "Action", "Sci-fi" ], "Actors" : [ { "First_name" : " Robert ", "Last_name" : " Downey Jr " }, { "First_name" : " Chris ", "Last_name" : " Evans " } ], "Directors" : [ { "First_name" : " Joe ", "Last_lame" : " Russo " }, { "First_name" : " Anthony ", "Last_name" : " Russo " } ], "Release_details" : { "Release_place" : " India ", "Release_date" : ISODate("2019-04-26T00:00:00Z"), "Ratings" : "A" } }
+{ "_id" : ObjectId("604200f853b31d43b7124aec"), "Film_Id" : 10, "Title" : " Udta Punjab ", "Year_of_release" : 2002, "Category" : [ "Action" ], "Actors" : [ { "First_name" : " Shahid ", "Last_name" : " Kapoor " }, { "First_name" : " Alia ", "Last_name" : " Bhatt " } ], "Directors" : [ { "First_name" : " Abhishek ", "Last_lame" : " Chaaubey " } ], "Release_details" : { "Release_place" : " India ", "Release_date" : ISODate("2016-06-17T00:00:00Z"), "Ratings" : "C" } }
+
+
+> db.Actor.find();
+
+{ "_id" : ObjectId("60421aa153b31d43b7124aed"), "Actor_Id" : 101, "First_name" : " Salman ", "Last_name" : " Khan ", "Address" : { "Street" : "Satara road", "City" : "Mumbai", "State" : "MH", "Country" : "India", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "salmankhan23@gmail.com", "phone_no" : 1234567889 }, "age" : 65 }
+{ "_id" : ObjectId("60421aa153b31d43b7124aee"), "Actor_Id" : 102, "First_name" : " Shahrukh ", "Last_name" : " Khan ", "Address" : { "Street" : "MG road", "City" : "Mumbai", "State" : "MH", "Country" : "India", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "shkhan23@gmail.com", "phone_no" : 2234567889 }, "age" : 60 }
+{ "_id" : ObjectId("60421aa153b31d43b7124aef"), "Actor_Id" : 103, "First_name" : " Madhuri ", "Last_name" : " Dixit ", "Address" : { "Street" : "SB road", "City" : "Mumbai", "State" : "MH", "Country" : "India", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "madhuri32@gmail.com", "phone_no" : 3234567889 }, "age" : 62 }
+{ "_id" : ObjectId("60421aa153b31d43b7124af0"), "Actor_Id" : 104, "First_name" : " Robert ", "Last_name" : " Downey Jr ", "Address" : { "Street" : "Fashion street", "City" : "california", "State" : "CA", "Country" : "USA", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "Robert13@gmail.com", "phone_no" : 4234567889 }, "age" : 33 }
+{ "_id" : ObjectId("60421aa153b31d43b7124af1"), "Actor_Id" : 105, "First_name" : " Emraan ", "Last_name" : " Hashmi ", "Address" : { "Street" : "Jaman road", "City" : "Mumbai", "State" : "MH", "Country" : "India", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "Emraan55@gmail.com", "phone_no" : 5234567889 }, "age" : 42 }
+{ "_id" : ObjectId("60421aa153b31d43b7124af2"), "Actor_Id" : 106, "First_name" : " Elijah ", "Last_name" : " Wood ", "Address" : { "Street" : "Ab road", "City" : "Cali", "State" : "CC", "Country" : "USA", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "Elijah@gmail.com", "phone_no" : 6234567889 }, "age" : 28 }
+{ "_id" : ObjectId("60421aa153b31d43b7124af3"), "Actor_Id" : 107, "First_name" : " Richard ", "Last_name" : " Amritage ", "Address" : { "Street" : "Cs road", "City" : "GG", "State" : "MH", "Country" : "USA", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "richaaard@gmail.com", "phone_no" : 7234567889 }, "age" : 65 }
+{ "_id" : ObjectId("60421aa153b31d43b7124af4"), "Actor_Id" : 108, "First_name" : " Shahid ", "Last_name" : " Kapoor ", "Address" : { "Street" : "rada road", "City" : "Mumbai", "State" : "MH", "Country" : "India", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "shahidkappor44@gmail.com", "phone_no" : 8234567889 }, "age" : 65 }
+{ "_id" : ObjectId("60421aa153b31d43b7124af5"), "Actor_Id" : 109, "First_name" : " Linda ", "Last_name" : " Hamilton ", "Address" : { "Street" : "SHIVAM road", "City" : "ny", "State" : "ny", "Country" : "USA", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "salmankhan23@gmail.com", "phone_no" : 9234567889 }, "age" : 65 }
+{ "_id" : ObjectId("60421aa153b31d43b7124af6"), "Actor_Id" : 110, "First_name" : " Arnold", "Last_name" : " S ", "Address" : { "Street" : "Satara road", "City" : "Mumbai", "State" : "MH", "Country" : "India", "Pin_code" : 411037 }, "Conact" : { "Email_id" : "arnold23@gmail.com", "phone_no" : 1034567889 }, "age" : 88 }
+>  
+====================================================================================================================================================================
+4. Add a value to the rating of the film whose title starts with ‘T’.
+
+> db.Film.update({Title:{$regex:"^T"}} , {$set: {"Release_details.Ratings":'A'}},{multi:1});
+WriteResult({ "nMatched" : 3, "nUpserted" : 0, "nModified" : 1 })
+
+> db.Film.find({Title:{$regex:"^T"}}).pretty();
+{
+        "_id" : ObjectId("604200f853b31d43b7124ae6"),
+        "Film_Id" : 4,
+        "Title" : "The Lord of the Rings",
+        "Year_of_release" : 2011,
+        "Category" : [
+                "Advanture",
+                "Thriller"
+        ],
+        "Actors" : [
+                {
+                        "First_name" : " Elijah ",
+                        "Last_name" : " Wood"
+                },
+                {
+                        "FirstName" : "Orlando",
+                        "LastName" : "Bloom "
+                }
+        ],
+        "Directors" : [
+                {
+                        "First_name" : " Peter ",
+                        "Last_lame" : " Jackson "
+                }
+        ],
+        "Release_details" : {
+                "Release_place" : " India ",
+                "Release_date" : ISODate("2011-03-15T00:00:00Z"),
+                "Ratings" : "A"
+        }
+}
+{
+        "_id" : ObjectId("604200f853b31d43b7124ae8"),
+        "Film_Id" : 6,
+        "Title" : "Tum Mile",
+        "Year_of_release" : 2008,
+        "Category" : [
+                "Romantic"
+        ],
+        "Actors" : [
+                {
+                        "First_name" : " Emraan ",
+                        "Last_name" : " Hashmi "
+                },
+                {
+                        "FirstName" : " Soha  ",
+                        "LastName" : " Khan "
+                }
+        ],
+        "Directors" : [
+                {
+                        "First_name" : " Kunal ",
+                        "Last_lame" : " Deshmukh "
+                }
+        ],
+        "Release_details" : {
+                "Release_place" : " Mumbai ",
+                "Release_date" : ISODate("2008-12-13T00:00:00Z"),
+                "Ratings" : "A"
+        }
+}
+{
+        "_id" : ObjectId("604200f853b31d43b7124ae9"),
+        "Film_Id" : 7,
+        "Title" : "Terminator",
+        "Year_of_release" : 2002,
+        "Category" : [
+                "Action"
+        ],
+        "Actors" : [
+                {
+                        "First_name" : " Arnold ",
+                        "Last_name" : " S "
+                },
+                {
+                        "First_name" : " Linda ",
+                        "Last_name" : " Hamilton "
+                }
+        ],
+        "Directors" : [
+                {
+                        "First_name" : " James ",
+                        "Last_lame" : " Cameron "
+                }
+        ],
+        "Release_details" : {
+                "Release_place" : " USA ",
+                "Release_date" : ISODate("1984-06-26T00:00:00Z"),
+                "Ratings" : "A"
+        }
+}
+====================================================================================================================================================================
+5. Add an actor named " Amir " in the ‘Actor’ collection. Also add the details of the film in ‘Film’ collection in which this actor has acted in.
+
+> db.Actor.insert({ Actor_Id : 111 , First_name : " Amir " , Last_name : " Khan " , Address:{Street: "Chennai road" , City: "Chennai" , State :"Tamilnadu" , Country :"India" , Pin_code : 456789} , Conact:{Email_id: "amirkhan121@gmail.com" , phone_no: 3454567889 } ,age : 58 });
+WriteResult({ "nInserted" : 1 })
+
+> db.Film.insert({ Film_Id : 11 , Title : " Dil " , Year_of_release : 2002 , Category : ["Romantic"] , Actors : [{First_name : "Amir " , Last_name : " Khan " },{First_name : " Madhuri " , Last_name : " Dixit " }] , Directors : [{ First_name : " Karan " , Last_lame : " Johar "}] , Release_details : { Release_place : " India " , Release_date : new Date("2002-04-10") , Ratings : "C" }});
+WriteResult({ "nInserted" : 1 })
+====================================================================================================================================================================
+6. Delete the film " Dil ".
+
+> db.Film.remove({Title:" Dil "})
+WriteResult({ "nRemoved" : 1 })
+====================================================================================================================================================================
+7. Delete an actor named " Salman ".
+
+> db.Actor.remove({First_name : " Salman "})
+WriteResult({ "nRemoved" : 1 })
+====================================================================================================================================================================
+8. Delete all actors from an ‘Actor’ collection who have age greater than “ 63 ” 
+
+> db.Actor.remove({age:{$gt:63}})
+WriteResult({ "nRemoved" : 4 })
+====================================================================================================================================================================
+9. Update the actor’s address where Actor Id is “ 111 ”.
+
+{
+        "_id" : ObjectId("60421f2c53b31d43b7124af8"),
+        "Actor_Id" : 111,
+        "First_name" : " Amir ",
+        "Last_name" : " Khan ",
+        "Address" : {
+                "Street" : "Chennai road",
+                "City" : "Chennai",
+                "State" : "Tamilnadu",
+                "Country" : "India",
+                "Pin_code" : 456789
+        },
+        "Conact" : {
+                "Email_id" : "amirkhan121@gmail.com",
+                "phone_no" : 3454567889
+        },
+        "age" : 58
+}  
+
+> db.Actor.update({"Actor_Id":111},{$set:{"Address.Street":" Satara road ","Address.City":" Satara ","Address.State":" Maharashtra ","Address.Country":" India ","Address.Pin_code":111111 }});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.Actor.find({First_name: " Amir "}).pretty()
+{
+        "_id" : ObjectId("60421f2c53b31d43b7124af8"),
+        "Actor_Id" : 111,
+        "First_name" : " Amir ",
+        "Last_name" : " Khan ",
+        "Address" : {
+                "Street" : " Satara road ",
+                "City" : " Satara ",
+                "State" : " Maharashtra ",
+                "Country" : " India ",
+                "Pin_code" : 111111
+        },
+        "Conact" : {
+                "Email_id" : "amirkhan121@gmail.com",
+                "phone_no" : 3454567889
+        },
+        "age" : 58
+}
+====================================================================================================================================================================
+10.Update the genre of the film directed by “ ”. 
+
+> db.Film.update({"Directors.First_name":" Abhishek "},{$set:{Category :" Romantic "}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Film.find({Film_Id:10}).pretty();
+{
+        "_id" : ObjectId("604200f853b31d43b7124aec"),
+        "Film_Id" : 10,
+        "Title" : " Udta Punjab ",
+        "Year_of_release" : 2002,
+        "Category" : " Romantic ",
+        "Actors" : [
+                {
+                        "First_name" : " Shahid ",
+                        "Last_name" : " Kapoor "
+                },
+                {
+                        "First_name" : " Alia ",
+                        "Last_name" : " Bhatt "
+                }
+        ],
+        "Directors" : [
+                {
+                        "First_name" : " Abhishek ",
+                        "Last_lame" : " Chaaubey "
+                }
+        ],
+        "Release_details" : {
+                "Release_place" : " India ",
+                "Release_date" : ISODate("2016-06-17T00:00:00Z"),
+                "Ratings" : "C"
+        }
+}
+====================================================================================================================================================================
+							(MongoDB Aggregate framework based queries) 
+====================================================================================================================================================================
+1. Find the titles of all the films starting with the letter ‘D’ released during the year 2009 and 2011. 
+
+> db.Film.aggregate([ { $match: { $and: [ { Year_of_release: {$gte: 2009}},{Year_of_release:{ $lte: 2011 }},{Title:{$regex:"^D"}} ] } } , {$project:{ _id: 0,Title:1 }} ]);
+{ "Title" : "Dabang" }
+====================================================================================================================================================================
+2. Find the list of films acted by an actor " Shahrukh Khan ".  
+
+> db.Film.find( {"Actors.First_name":" Shahrukh "} , {_id:0 , Title:1 , Actors:1} )
+{ "Title" : "Devdas", "Actors" : [ { "First_name" : " Shahrukh ", "Last_name" : " Khan " }, { "FirstName" : " Madhuri ", "LastName" : " Dixit " } ] }
+{ "Title" : "Kurbaan", "Actors" : [ { "First_name" : " Shahrukh ", "Last_name" : " Khan " }, { "FirstName" : " Madhuri ", "LastName" : " Dixit " } ] }
+====================================================================================================================================================================
+3. Find all the films released in 90s. 
+
+> db.Film.find( {$and:[ {Year_of_release:{$gte:1990}} , {Year_of_release:{$lt:2000}}  ]} , {_id:0 , Title:1 ,Year_of_release:1})
+{ "Title" : "Avengers : End Game ", "Year_of_release" : 1995 } 
+====================================================================================================================================================================
+4. Find all films belonging to “Adventure” and “Thriller” genre.  
+
+> db.Film.find({$and:[ {Category:"Thriller"} , {Category:"Adventure"}  ] } , {_id:0 , Title:1, Category:1})
+{ "Title" : "Hobbit", "Category" : [ "Adventure", "Thriller" ] }
+{ "Title" : "The Lord of the Rings", "Category" : [ "Adventure", "Thriller" ] }
+====================================================================================================================================================================
+5. Find all the films having ‘A’ rating. 
+
+> db.Film.find({"Release_details.Ratings":"A"},{_id:0 , Title:1 , "Release_details.Ratings":1} )
+{ "Title" : "Kurbaan", "Release_details" : { "Ratings" : "A" } }
+{ "Title" : "The Lord of the Rings", "Release_details" : { "Ratings" : "A" } }
+{ "Title" : "Tum Mile", "Release_details" : { "Ratings" : "A" } }
+{ "Title" : "Terminator", "Release_details" : { "Ratings" : "A" } }
+{ "Title" : "Iron Man 3", "Release_details" : { "Ratings" : "A" } }
+{ "Title" : "Avengers : End Game ", "Release_details" : { "Ratings" : "A" } }
+====================================================================================================================================================================
+6. Arrange the film names in ascending order and release year should be in descending order.
+
+> db.Film.aggregate([ {$sort:{Year_of_release:-1 , Title:1}}  , {$project:{_id:0,Title:1,Year_of_release:1}} ])
+{ "Title" : "Iron Man 3", "Year_of_release" : 2013 }
+{ "Title" : "Hobbit", "Year_of_release" : 2012 }
+{ "Title" : "The Lord of the Rings", "Year_of_release" : 2011 }
+{ "Title" : "Dabang", "Year_of_release" : 2010 }
+{ "Title" : "Kurbaan", "Year_of_release" : 2009 }
+{ "Title" : "Tum Mile", "Year_of_release" : 2008 }
+{ "Title" : " Udta Punjab ", "Year_of_release" : 2002 }
+{ "Title" : "Devdas", "Year_of_release" : 2002 }
+{ "Title" : "Terminator", "Year_of_release" : 2002 }
+{ "Title" : "Avengers : End Game ", "Year_of_release" : 1995 }
+====================================================================================================================================================================
+7. Sort the actors in ascending order according to their age. 
+
+> db.Actor.aggregate([ {$sort:{age : 1}}  , {$project:{_id:0,First_name:1,age:1}} ])
+{ "First_name" : " Elijah ", "age" : 28 }
+{ "First_name" : " Robert ", "age" : 33 }
+{ "First_name" : " Emraan ", "age" : 42 }
+{ "First_name" : " Amir ", "age" : 58 }
+{ "First_name" : " Shahrukh ", "age" : 60 }
+{ "First_name" : " Madhuri ", "age" : 62 }
+====================================================================================================================================================================
+8. Find movies that are romantic or action and are released after 2005. 
+
+> db.Film.find({ $and:[{Year_of_release:{$gt:2005}}  , {$or:[ {Category:"Action" } ,{Category:"Romantic"} ]} ]} , {_id:0 , Title:1, Category:1, Year_of_release:1})
+{ "Title" : "Dabang", "Year_of_release" : 2010, "Category" : [ "Action" ] }
+{ "Title" : "Tum Mile", "Year_of_release" : 2008, "Category" : [ "Romantic" ] }
+{ "Title" : "Iron Man 3", "Year_of_release" : 2013, "Category" : [ "Action", "Sci-fi" ] }
+====================================================================================================================================================================
+9. Show the latest 2 films acted by an actor “ Shahrukh ”. 
+
+> db.Film.find({$and:[{"Actors.First_name":" Shahrukh "},{"Actors.Last_name":" Khan "}]},{Title:1,Year_of_relase:1}).sort({"Year_of_release":-1}).limit(2)
+{ "_id" : ObjectId("604200f853b31d43b7124ae5"), "Title" : "Kurbaan" }
+{ "_id" : ObjectId("604200f853b31d43b7124ae4"), "Title" : "Devdas" }
+====================================================================================================================================================================
+10. List the titles of films acted by actors “Shahrukh ” and “ Madhuri ”.
+
+> db.Film.find( { $and: [{ $and: [{ "Actors.First_name":"Shahid" } , {"Actors.Last_name":"Kapoor" }] } , { $and:[{"Actors.First_name":"Kareena" } , {"Actors.Last_name":"Kapoor" }] } ]} , { Title:1 , Actors:1}).pretty()
+{
+        "_id" : ObjectId("6043cbfb44e2a2416edb3b21"),
+        "Title" : "Chup chup ke",
+        "Actors" : [
+                {
+                        "First_name" : "Shahid",
+                        "Last_name" : "Kapoor"
+                },
+                {
+                        "First_name" : "Kareena",
+                        "Last_name" : "Kapoor"
+                }
+        ]
+}
+{
+        "_id" : ObjectId("6043cc3444e2a2416edb3b22"),
+        "Title" : "Jab We Met",
+        "Actors" : [
+                {
+                        "First_name" : "Shahid",
+                        "Last_name" : "Kapoor"
+                },
+                {
+                        "First_name" : "Kareena",
+                        "Last_name" : "Kapoor"
+                }
+        ]
+}
+====================================================================================================================================================================  
