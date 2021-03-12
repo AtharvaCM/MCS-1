@@ -1,0 +1,361 @@
+========================================================================================================
+                            CHAP 1 - Introduction to Advanced Databases
+========================================================================================================
+Characteristics of DBMS
+
+    It uses a digital repository established on a server to store and manage the information.
+    It can provide a clear and logical view of the process that manipulates data.
+    DBMS contains automatic backup and recovery procedures.
+    It contains ACID properties which maintain data in a healthy state in case of failure.
+    It can reduce the complex relationship between data.
+    It is used to support manipulation and processing of data.
+    It is used to provide security of data.
+    It can view the database from different viewpoints according to the requirements of the user.
+
+========================================================================================================
+1.1 Database System Architectures
+
+Types of DBMS Architecture
+
+There are three types of DBMS architecture:
+
+1. Single tier architecture
+2. Two tier architecture
+3. Three tier architecture
+
+--------------------------------------------------------------------------------------------------------
+1. Single tier architecture
+
+In this type of architecture, the database is readily available on the client machine, any request made by client doesn’t require a network connection to perform the action on the database.
+
+For example, lets say you want to fetch the records of employee from the database and the database is available on your computer system, so the request to fetch employee details will be done by your computer and the records will be fetched from the database by your computer as well. This type of system is generally referred as local database system.
+
+--------------------------------------------------------------------------------------------------------
+2. Two tier architecture
+
+DBMS Architecture - 2-tier
+
+https://beginnersbook.com/wp-content/uploads/2018/11/2-tier-architecture.png
+
+In two-tier architecture, the Database system is present at the server machine and the DBMS application is present at the client machine, these two machines are connected with each other through a reliable network as shown in the above diagram.
+
+Whenever client machine makes a request to access the database present at server using a query language like sql, the server perform the request on the database and returns the result back to the client. The application connection interface such as JDBC, ODBC are used for the interaction between server and client.
+
+--------------------------------------------------------------------------------------------------------
+3. Three tier architecture
+
+DBMS Architecture - 3 tier
+
+https://beginnersbook.com/wp-content/uploads/2018/11/3-tier-architecture.png
+
+In three-tier architecture, another layer is present between the client machine and server machine. In this architecture, the client application doesn’t communicate directly with the database systems present at the server machine, rather the client application communicates with server application and the server application internally communicates with the database system present at the server.
+
+========================================================================================================
+1.2 Centtralized and Client-Server Architecture
+
+Centralized Database :
+A centralized database is basically a type of database that is stored, located as well as maintained at a single location only. This type of database is modified and managed from that location itself. This location is thus mainly any database system or a centralized computer system. The centralized location is accessed via an internet connection (LAN, WAN, etc). This centralized database is mainly used by institutions or organizations.
+
+https://media.geeksforgeeks.org/wp-content/uploads/20200501155836/Capturedistributeddb.png
+
+Advantages –
+
+    1. This database can be easily expanded as data is already spread across different physical locations.
+    2. The distributed database can easily be accessed from different networks.
+    3. This database is more secure in comparison to centralized database.
+
+Disadvantages –
+
+    1. This database is very costly and it is difficult to maintain because of its complexity.
+    2. In this database, it is difficult to provide a uniform view to user since it is spread across different physical locations.
+
+
+--------------------------------------------------------------------------------------------------------
+Client-server Database Architecture in DBMS
+
+In client-server architecture many clients connected with one server. The server is centerlines.it provides services to all clients. All clients request to the server for different Service. The server displays the results according to the client’s request.
+
+Client/server architecture is a computing model in which the server hosts (computer), send and manages most of the resources and works to be required by the client. In this type of architecture has one or more client computers attached to a central server over a network. This system shares different resources.
+
+Client/server architecture is also called as a networking computing model and client-server network because all the requests and demands are sent over a network.
+
+https://t4tutorials.com/wp-content/uploads/2019/09/Client-Server-Database-model.webp
+
+
+Advantages of Client-server Database Architecture in DBMS
+
+    All the data and resources are controlled by server .im this way all data and resources are very consistent.
+    You can easily increase the number of client in this architecture at any time. This all increases the scalability of the network.
+    This is very easy to maintain you can easily repair, replace or add clients in this network. the independence of the changes also known as encapsulation.
+    This network is very easy to use and it is not complicated.
+
+Disadvantages of Client-server Database Architecture in DBMS
+
+    Traffic is a big problem in this network.
+    When you add large numbers of the client with server this network will be more complicated.
+    When the server goes down all the clients are not able to send their request. The whole work will be stopped
+    The hardware and software are very expensive.
+    The client does not have resources for each resource they need to request the server. Because of all resources exit on server
+
+========================================================================================================
+1.4 Parallel Systems
+
+Introduction to Parallel Databases
+
+Companies need to handle huge amount of data with high data transfer rate. The client server and centralized system is not much efficient. The need to improve the efficiency gave birth to the concept of Parallel Databases.
+
+Parallel database system improves performance of data processing using multiple resources in parallel, like multiple CPU and disks are used parallely.
+
+It also performs many parallelization operations like, data loading and query processing.
+
+--------------------------------------------------------------------------------------------------------
+Goals of Parallel Databases
+
+ Improve performance:
+ Improve availability of data:
+ Improve reliability:
+ Provide distributed access of data:
+
+--------------------------------------------------------------------------------------------------------
+Shared memory system
+
+    Shared memory system uses multiple processors which is attached to a global shared memory via intercommunication channel or communication bus.
+    Shared memory system have large amount of cache memory at each processors, so referencing of the shared memory is avoided.
+    If a processor performs a write operation to memory location, the data should be updated or removed from that location.
+
+https://www.tutorialride.com/images/parallel-databases/shared-memory-system.jpg
+
+Advantages of Shared memory system
+
+    Data is easily accessible to any processor.
+    One processor can send message to other efficiently.
+
+Disadvantages of Shared memory system
+
+    Waiting time of processors is increased due to more number of processors.
+    Bandwidth problem.
+
+--------------------------------------------------------------------------------------------------------
+Shared Disk System
+
+    Shared disk system uses multiple processors which are accessible to multiple disks via intercommunication channel and every processor has local memory.
+    Each processor has its own memory so the data sharing is efficient.
+    The system built around this system are called as clusters.
+
+https://www.tutorialride.com/images/parallel-databases/shared-disk-memory.jpg
+
+Advantages of Shared Disk System
+
+    Fault tolerance is achieved using shared disk system.
+    Fault tolerance: If a processor or its memory fails, the other processor can complete the task. This is called as fault tolerance.
+
+Disadvantage of Shared Disk System
+
+    Shared disk system has limited scalability as large amount of data travels through the interconnection channel.
+    If more processors are added the existing processors are slowed down.
+
+Applications of Shared Disk System
+    Digital Equipment Corporation(DEC): DEC cluster running relational databases use the shared disk system and now owned by Oracle.
+
+--------------------------------------------------------------------------------------------------------
+Shared nothing disk system
+
+    Each processor in the shared nothing system has its own local memory and local disk.
+    Processors can communicate with each other through intercommunication channel.
+    Any processor can act as a server to serve the data which is stored on local disk.
+
+https://www.tutorialride.com/images/parallel-databases/shared-nothing-disk-system.jpg
+
+Advantages of Shared nothing disk system
+
+    Number of processors and disk can be connected as per the requirement in share nothing disk system.
+    Shared nothing disk system can support for many processor, which makes the system more scalable.
+
+Disadvantages of Shared nothing disk system
+
+    Data partitioning is required in shared nothing disk system.
+    Cost of communication for accessing local disk is much higher.
+
+Applications of Shared nothing disk system
+
+    Tera data database machine.
+    The Grace and Gamma research prototypes.
+
+--------------------------------------------------------------------------------------------------------
+Hierarchical System or Non-Uniform Memory Architecture
+
+    Hierarchical model system is a hybrid of shared memory system, shared disk system and shared nothing system.
+    Hierarchical model is also known as Non-Uniform Memory Architecture (NUMA).
+    In this system each group of processor has a local memory. But processors from other groups can access memory which is associated with the other group in coherent.
+    NUMA uses local and remote memory(Memory from other group), hence it will take longer time to communicate with each other.
+
+Advantages of NUMA
+
+    Improves the scalability of the system.
+    Memory bottleneck(shortage of memory) problem is minimized in this architecture.
+
+Disadvantages of NUMA
+The cost of the architecture is higher compared to other architectures.
+
+========================================================================================================
+1.5 Distributed Database System
+
+A distributed database is basically a database that is not limited to one system, it is spread over different sites, i.e, on multiple computers or over a network of computers. A distributed database system is located on various sited that don’t share physical components. This maybe required when a particular database needs to be accessed by various users globally. It needs to be managed such that for the users it looks like one single database. 
+
+ Types:
+1. Homogeneous Database:
+
+In a homogeneous database, all different sites store database identically. The operating system, database management system and the data structures used – all are same at all sites. Hence, they’re easy to manage.
+
+2. Heterogeneous Database:
+
+In a heterogeneous distributed database, different sites can use different schema and software that can lead to problems in query processing and transactions. Also, a particular site might be completely unaware of the other sites. Different computers may use a different operating system, different database application. They may even use different data models for the database. Hence, translations are required for different sites to communicate. 
+
+--------------------------------------------------------------------------------------------------------
+Distributed Data Storage
+
+There are 2 ways in which data can be stored on different sites. These are:
+1. Replication
+In this approach, the entire relation is stored redundantly at 2 or more sites. If the entire database is available at all sites, it is a fully redundant database. Hence, in replication, systems maintain copies of data.
+This is advantageous as it increases the availability of data at different sites. Also, now query requests can be processed in parallel.
+However, it has certain disadvantages as well. Data needs to be constantly updated. Any change made at one site needs to be recorded at every site that relation is stored or else it may lead to inconsistency. This is a lot of overhead. Also, concurrency control becomes way more complex as concurrent access now needs to be checked over a number of sites.
+
+2. Fragmentation
+In this approach, the relations are fragmented (i.e., they’re divided into smaller parts) and each of the fragments is stored in different sites where they’re required. It must be made sure that the fragments are such that they can be used to reconstruct the original relation (i.e, there isn’t any loss of data).
+Fragmentation is advantageous as it doesn’t create copies of data, consistency is not a problem.
+Fragmentation of relations can be done in two ways:
+
+    1. Horizontal fragmentation – Splitting by rows – The relation is fragmented into groups of tuples so that each tuple is assigned to at least one fragment.
+    2. Vertical fragmentation – Splitting by columns – The schema of the relation is divided into smaller schemas. Each fragment must contain a common candidate key so as to ensure lossless join.
+
+In certain cases, an approach that is hybrid of fragmentation and replication is used. 
+
+========================================================================================================
+                                    CHAP 2 - Parallel Databases
+========================================================================================================
+2.1 Introduction
+
+refer 1.4
+
+========================================================================================================
+2.2 Goals of Parallel Databases
+
+refer 1.4
+
+========================================================================================================
+2.3 Different types of Database Parallelism
+
+Parallelism is used to support speedup, where queries are executed faster because more resources, such as processors and disks, are provided. Parallelism is also used to provide scale-up, where increasing workloads are managed without increase response-time, via an increase in the degree of parallelism.
+
+Different architectures for parallel database systems are shared-memory, shared-disk, shared-nothing, and hierarchical structures.
+
+--------------------------------------------------------------------------------------------------------
+a)Horizontal Parallelism: It means that the database is partitioned across multiple disks, and parallel processing occurs within a specific task (i.e., table scan) that is performed concurrently on different processors against different sets of data.
+
+(b)Vertical Parallelism: It occurs among various tasks. All component query operations (i.e., scan, join, and sort) are executed in parallel in a pipelined fashion. In other words, an output from one function (e.g., join) as soon as records become available.
+
+https://static.javatpoint.com/tutorial/datawarehouse/images/data-warehouse-types-of-database-parallelism.png
+
+--------------------------------------------------------------------------------------------------------
+Intraquery Parallelism
+
+Intraquery parallelism defines the execution of a single query in parallel on multiple processors and disks. Using intraquery parallelism is essential for speeding up long-running queries.
+
+Interquery parallelism does not help in this function since each query is run sequentially.
+
+To improve the situation, many DBMS vendors developed versions of their products that utilized intraquery parallelism.
+
+This application of parallelism decomposes the serial SQL, query into lower-level operations such as scan, join, sort, and aggregation.
+
+These lower-level operations are executed concurrently, in parallel.
+
+--------------------------------------------------------------------------------------------------------
+Interquery Parallelism
+
+In interquery parallelism, different queries or transaction execute in parallel with one another.
+
+This form of parallelism can increase transactions throughput. The response times of individual transactions are not faster than they would be if the transactions were run in isolation.
+
+Thus, the primary use of interquery parallelism is to scale up a transaction processing system to support a more significant number of transactions per second.
+
+Database vendors started to take advantage of parallel hardware architectures by implementing multiserver and multithreaded systems designed to handle a large number of client requests efficiently.
+
+This approach naturally resulted in interquery parallelism, in which different server threads (or processes) handle multiple requests at the same time.
+
+Interquery parallelism has been successfully implemented on SMP systems, where it increased the throughput and allowed the support of more concurrent users.
+
+--------------------------------------------------------------------------------------------------------
+Shared memory system
+Shared disk system
+Shared nothing system
+Hierarchical
+
+refer 1.4
+
+========================================================================================================
+2.4 Performance Parameters
+
+Some parameters to judge the performance of Parallel Databases are:
+
+--------------------------------------------------------------------------------------------------------
+1. Response time: It is the time taken to complete a single task for given time.
+
+--------------------------------------------------------------------------------------------------------
+2. Speed up in Parallel database:
+
+    * Speed up is the process of  increasing degree of (resources) parallelism to complete a running task in less time.
+    * The time required for running task is inversely proportional to number of resources.
+
+Formula:
+Speed up = TS / TL
+Where,
+     TS = Time required to execute task of size Q
+     TL = Time required to execute task of size N*Q
+
+https://www.tutorialride.com/images/parallel-databases/scale-up-databases.jpg
+
+speed up databases
+Linear speed-up is N (Number of resources).
+Speed-up is sub-linear if speed-up is less than N.
+
+--------------------------------------------------------------------------------------------------------
+3. Scale up in Parallel database:
+Scale-up is the ability to keep performance constant, when number of process and resources increases proportionally.
+
+Formula:
+Let Q be the Task and QN the task where N is greater than Q
+TS = Execution time of task Q on smaller machine MS
+TL = Execution time of task Q on smaller machine ML
+
+Scale Up = TS /TL
+
+========================================================================================================
+2.5 Parallel Data Architecture
+
+Shared memory system
+Shared disk system
+Shared nothing system
+Hierarchical
+
+refer 1.4
+
+========================================================================================================
+2.6 Evaluation of Parallel Query
+
+________________________________________________________________________________________________________
+2.6.1 Inter and Intra Query Parallelism
+
+1. Inter query parallelism
+
+    This technique allows to run multiple queries on different processors simultaneously.
+    Pipelined parallelism is achieved by using inter query parallelism, which improves the output of the system.
+
+    For example: If there are 6 queries, each query will take 3 seconds for evaluation. Thus, the total time taken to complete evaluation process is 18 seconds. Inter query parallelism achieves this task only in 3 seconds.
+    However, Inter query parallelism is difficult to achieve every time.
+
+2. Intra Query Parallelism
+
+    In this technique query is divided in sub queries which can run simultaneously on different processors, this will minimize the query evaluation time.
+    Intra query parallelism improves the response time of the system.
+
+    For Example: If we have 6 queries, which can take 3 seconds to complete the evaluation process, the  total time to complete the evaluation process is 18 seconds. But We can achieve this task in only 3 seconds by using intra query evaluation as each query is divided in sub-queries.
