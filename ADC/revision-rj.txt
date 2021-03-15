@@ -1,0 +1,642 @@
+========================================================================================================
+                           *****    CHAP 1 - Introduction to Advanced Databases     ******
+========================================================================================================
+Characteristics of DBMS
+
+    It uses a digital repository established on a server to store and manage the information.
+    It can provide a clear and logical view of the process that manipulates data.
+    DBMS contains automatic backup and recovery procedures.
+    It contains ACID properties which maintain data in a healthy state in case of failure.
+    It can reduce the complex relationship between data.
+    It is used to support manipulation and processing of data.
+    It is used to provide security of data.
+    It can view the database from different viewpoints according to the requirements of the user.
+
+========================================================================================================
+1.1 Database System Architectures
+
+Types of DBMS Architecture
+
+There are three types of DBMS architecture:
+
+1. Single tier architecture
+2. Two tier architecture
+3. Three tier architecture
+
+--------------------------------------------------------------------------------------------------------
+1. Single tier architecture
+
+In this type of architecture, the database is readily available on the client machine, any request made by client doesn’t require a network connection to perform the action on the database.
+
+For example, lets say you want to fetch the records of employee from the database and the database is available on your computer system, so the request to fetch employee details will be done by your computer and the records will be fetched from the database by your computer as well. This type of system is generally referred as local database system.
+
+--------------------------------------------------------------------------------------------------------
+2. Two tier architecture
+
+DBMS Architecture - 2-tier https://beginnersbook.com/wp-content/uploads/2018/11/2-tier-architecture.png
+
+In two-tier architecture, the Database system is present at the server machine and the DBMS application is present at the client machine, these two machines are connected with each other through a reliable network as shown in the above diagram.
+
+Whenever client machine makes a request to access the database present at server using a query language like sql, the server perform the request on the database and returns the result back to the client. The application connection interface such as JDBC, ODBC are used for the interaction between server and client.
+
+--------------------------------------------------------------------------------------------------------
+3. Three tier architecture
+
+DBMS Architecture - 3 tier https://beginnersbook.com/wp-content/uploads/2018/11/3-tier-architecture.png
+
+In three-tier architecture, another layer is present between the client machine and server machine. In this architecture, the client application doesn’t communicate directly with the database systems present at the server machine, rather the client application communicates with server application and the server application internally communicates with the database system present at the server.
+
+========================================================================================================
+1.2 Centtralized and Client-Server Architecture
+
+ Centralized Database :
+A centralized database is basically a type of database that is stored, located as well as maintained at a single location only. This type of database is modified and managed from that location itself. This location is thus mainly any database system or a centralized computer system. The centralized location is accessed via an internet connection (LAN, WAN, etc). This centralized database is mainly used by institutions or organizations.
+
+Advantages –
+
+Since all data is stored at a single location only thus it is easier to access and co-ordinate data.
+The centralized database has very minimal data redundancy since all data is stored at a single place.
+It is cheaper in comparison to all other databases available.
+
+Disadvantages –
+
+The data traffic in case of centralized database is more.
+If any kind of system failure occurs at centralized system then entire data will be destroyed.
+--------------------------------------------------------------------------------------------------------
+Client-server Database Architecture in DBMS
+
+In client-server architecture many clients connected with one server. The server is centerlines.it provides services to all clients. All clients request to the server for different Service. The server displays the results according to the client’s request.
+
+Client/server architecture is a computing model in which the server hosts (computer), send and manages most of the resources and works to be required by the client. In this type of architecture has one or more client computers attached to a central server over a network. This system shares different resources.
+
+Client/server architecture is also called as a networking computing model and client-server network because all the requests and demands are sent over a network.
+
+https://t4tutorials.com/wp-content/uploads/2019/09/Client-Server-Database-model.webp
+
+
+Advantages of Client-server Database Architecture in DBMS
+
+    All the data and resources are controlled by server . In this way all data and resources are very consistent.
+    You can easily increase the number of client in this architecture at any time. This all increases the scalability of the network.
+    This is very easy to maintain. You can easily repair, replace or add clients in this network. 
+    The independence of the changes also known as encapsulation.
+    This network is very easy to use and it is not complicated.
+
+Disadvantages of Client-server Database Architecture in DBMS
+
+    Traffic is a big problem in this network.
+    When you add large numbers of the client with server this network will be more complicated.
+    When the server goes down all the clients are not able to send their request. The whole work will be stopped
+    The hardware and software are very expensive.
+    The client does not have resources for each resource they need to request the server. Because of all resources exist on server
+========================================================================================================
+Introduction to Parallel Databases
+
+Companies need to handle huge amount of data with high data transfer rate. The client server and centralized system is not much efficient.
+The need to improve the efficiency gave birth to the concept of Parallel Databases.
+Parallel database system improves performance of data processing using multiple resources in parallel, like multiple CPU and disks are used parallely.
+It also performs many parallelization operations like, data loading and query processing.
+
+Types of Parallel Database Architecture
+
+--------------------------------------------------------------------------------------------------------
+
+Shared memory system
+
+Shared memory system uses multiple processors which is attached to a global shared memory via intercommunication channel or communication bus.
+Shared memory system have large amount of cache memory at each processors, so referencing of the shared memory is avoided.
+If a processor performs a write operation to memory location, the data should be updated or removed from that location.
+shared memory system.
+ https://www.tutorialride.com/images/parallel-databases/shared-memory-system.jpg
+
+Advantages 
+
+Data is easily accessible to any processor.
+One processor can send message to other efficiently.
+
+Disadvantages 
+
+Waiting time of processors is increased due to more number of processors.
+Bandwidth problem.
+--------------------------------------------------------------------------------------------------------
+
+Shared Disk System
+
+Shared disk system uses multiple processors which are accessible to multiple disks via intercommunication channel and every processor has local memory.
+Each processor has its own memory so the data sharing is efficient.
+The system built around this system are called as clusters.
+shared disk memory
+
+Advantages 
+
+Fault tolerance is achieved using shared disk system.
+Fault tolerance: If a processor or its memory fails, the other processor can complete the task. This is called as fault tolerance.
+
+Disadvantages
+
+Shared disk system has limited scalability as large amount of data travels through the interconnection channel.
+If more processors are added the existing processors are slowed down.
+
+Applications 
+
+Digital Equipment Corporation(DEC): DEC cluster running relational databases use the shared disk system and now owned by Oracle.
+--------------------------------------------------------------------------------------------------------
+
+Shared nothing disk system
+
+Each processor in the shared nothing system has its own local memory and local disk.
+Processors can communicate with each other through intercommunication channel.
+Any processor can act as a server to serve the data which is stored on local disk.
+shared nothing disk system
+
+Advantages 
+
+Number of processors and disk can be connected as per the requirement in share nothing disk system.
+Shared nothing disk system can support for many processor, which makes the system more scalable.
+
+Disadvantages 
+
+Data partitioning is required in shared nothing disk system.
+Cost of communication for accessing local disk is much higher.
+
+Applications 
+
+Tera data database machine.
+The Grace and Gamma research prototypes.
+--------------------------------------------------------------------------------------------------------
+
+Distributed Database System
+
+A distributed database is basically a database that is not limited to one system, it is spread over different sites, i.e, 
+on multiple computers or over a network of computers. 
+A distributed database system is located on various sited that don’t share physical components. 
+This maybe required when a particular database needs to be accessed by various users globally. 
+It needs to be managed such that for the users it looks like one single database.
+Distributed database is a system in which storage devices are not connected to a common processing unit.
+Database is controlled by Distributed Database Management System and data may be stored at the same location or spread over the interconnected network. 
+It is a loosely coupled system.
+Shared nothing architecture is used in distributed databases.
+
+Types:
+1. Homogeneous Database:
+
+In a homogeneous database, all different sites store database identically. 
+The operating system, database management system and the data structures used – all are same at all sites. 
+Hence, they’re easy to manage.
+
+2. Heterogeneous Database:
+
+In a heterogeneous distributed database, different sites can use different schema and software that can lead to problems in query 
+processing and transactions. Also, a particular site might be completely unaware of the other sites. 
+Different computers may use a different operating system, different database application. 
+They may even use different data models for the database. 
+Hence, translations are required for different sites to communicate.
+
+=======================================================================================================
+                                  ******    CHAP 2 - Parallel Databases     ******
+========================================================================================================
+
+Introduction to Parallel Databases
+
+Companies need to handle huge amount of data with high data transfer rate. The client server and centralized system is not much efficient. 
+The need to improve the efficiency gave birth to the concept of Parallel Databases.
+Parallel database system improves performance of data processing using multiple resources in parallel, like multiple CPU and disks are used 
+parallely.
+It also performs many parallelization operations like, data loading and query processing.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Goals of Parallel Databases
+
+The concept of Parallel Database was built with a goal to:
+
+Improve performance:
+The performance of the system can be improved by connecting multiple CPU and disks in parallel. 
+Many small processors can also be connected in parallel.
+
+Improve availability of data:
+Data can be copied to multiple locations to improve the availability of data.
+For example: if a module contains a relation (table in database) which is unavailable then it is important to make it available from another module.
+
+Improve reliability:
+Reliability of system is improved with completeness, accuracy and availability of data.
+
+Provide distributed access of data:
+Companies having many branches in multiple cities can access data with the help of parallel database system.
+
+Parallel Database System https://www.tutorialride.com/images/parallel-databases/parallel-databases-system.jpg
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Types of Database Parallelism
+
+Parallelism is used to support speedup, where queries are executed faster because more resources, such as processors and disks, are provided. 
+Parallelism is also used to provide scale-up, where increasing workloads are managed without increase response-time, via an increase in the degree of parallelism.
+
+(a)Horizontal Parallelism: 
+It means that the database is partitioned across multiple disks, and parallel processing occurs within a specific task (i.e., table scan) 
+that is performed concurrently on different processors against different sets of data.
+
+(b)Vertical Parallelism: 
+It occurs among various tasks. All component query operations (i.e., scan, join, and sort) are executed in parallel in a pipelined fashion. 
+In other words, an output from one function (e.g., join) as soon as records become available.
+
+https://static.javatpoint.com/tutorial/datawarehouse/images/data-warehouse-types-of-database-parallelism.png
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Performance Parameters for Parallel Databases
+
+Some parameters to judge the performance of Parallel Databases are:
+1. Response time: It is the time taken to complete a single task for given time.
+
+2. Speed up in Parallel database:
+Speed up is the process of  increasing degree of (resources) parallelism to complete a running task in less time.
+The time required for running task is inversely proportional to number of resources.
+
+Formula:
+Speed up = TS / TL
+Where,
+     TS = Time required to execute task of size Q
+     TL = Time required to execute task of size N*Q
+
+3. Scale up in Parallel database:
+Scale-up is the ability to keep performance constant, when number of process and resources increases proportionally.
+
+Formula:
+Let Q be the Task and QN the task where N is greater than Q
+TS = Execution time of task Q on smaller machine MS
+TL = Execution time of task Q on smaller machine ML
+
+Scale Up = TS /TL
+
+https://www.tutorialride.com/parallel-databases/performance-parameters-for-parallel-databases.htm
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Parallel Data Architecture 
+1. Shared memory system
+2. Shared disk system
+3. Shared nothing disk system
+4. Hierarchical System or Non-Uniform Memory Architecture
+
+Hierarchical model system is a hybrid of shared memory system, shared disk system and shared nothing system.
+Hierarchical model is also known as Non-Uniform Memory Architecture (NUMA).
+In this system each group of processor has a local memory. But processors from other groups can access memory which is associated with the other group in coherent.
+NUMA uses local and remote memory(Memory from other group), hence it will take longer time to communicate with each other.
+
+Advantages of NUMA
+Improves the scalability of the system.
+Memory bottleneck(shortage of memory) problem is minimized in this architecture.
+
+Disadvantages of NUMA
+The cost of the architecture is higher compared to other architectures.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Evaluating Parallel Query in Parallel Databases
+
+Techniques of query Evaluation
+The two techniques used in query evaluation are as follows:
+
+1. Inter query parallelism
+This technique allows to run multiple queries on different processors simultaneously.
+Pipelined parallelism is achieved by using inter query parallelism, which improves the output of the system.
+
+For example: If there are 6 queries, each query will take 3 seconds for evaluation. Thus, the total time taken to complete evaluation process is 18 seconds. 
+Inter query parallelism achieves this task only in 3 seconds.
+However, Inter query parallelism is difficult to achieve every time.
+
+2. Intra Query Parallelism
+In this technique query is divided in sub queries which can run simultaneously on different processors, this will minimize the query evaluation time.
+Intra query parallelism improves the response time of the system.
+
+For Example: If we have 6 queries, which can take 3 seconds to complete the evaluation process, the  total time to complete the evaluation process is 18 seconds. 
+But We can achieve this task in only 3 seconds by using intra query evaluation as each query is divided in sub-queries.
+
+Optimization of Parallel Query
+
+Parallel Query optimization is nothing but selecting the efficient query evaluation plan.
+Parallel Query optimization plays an important role in developing system to minimize the cost of query evaluation.
+
+Two factors play a very important role in parallel query optimization.
+
+a) total time spent to find the best plan.
+b) amount of time required to execute the plan.
+
+Goals of Query optimization
+
+Query Optimization is done with an aim to:
+Speed up the queries by finding the queries which can give the fastest result on execution.
+Increase the performance of the system.
+Select the best query evaluation plan.
+Avoid the unwanted plan.
+
+Approaches of Query Optimization
+
+1. Horizontal partitioning: Tables are created vertically using columns.
+2. Vertical partitioning: Tables are created with fewer columns and partition the table row wise.
+3. De-normalization: In this approach multiple tables are combined into one table.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Virtualization on Multicore processors
+
+The processing power of the computer is increased by adding many CPUs. This technique is referred as virtualization.
+Multiple CPUs are added to the host machine which can improve the performance of the system.
+There are no specific rules for adding number of CPUs.
+Multicore processors have the ability to solve the complicated processing.
+This technique is used for heavy load process.
+
+=======================================================================================================
+                                  ******    CHAP 3 - Distributed Databases     ******
+========================================================================================================
+
+Goals of  Distributed  Databases 
+
+The concept of distributed database was built with a goal to improve:
+Reliability: In distributed database system, if one system fails down or stops working for some time another system can complete the task.
+Availability: In distributed database system reliability can be achieved even if sever fails down. 
+              Another system is available to serve the client request.
+Performance: Performance can be achieved by distributing database over different locations. 
+             So the databases are available to every location which is easy to maintain.
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Types of  Distributed Databases (Horizontal,Vertical,Hybrid) 
+
+What is fragmentation?
+The process of dividing the database into a smaller multiple parts is called as fragmentation.
+These fragments may be stored at different locations.
+The data fragmentation process should be carrried out in such a way that the reconstruction of original database from the fragments is possible.
+
+Types of data Fragmentation
+There are three types of data fragmentation:
+
+1. Horizontal data fragmentation
+Horizontal fragmentation groups the tuples of a table in accordance to values of one or more fields.
+Horizontal fragmentation should also confirm to the rule of reconstructiveness.
+Each horizontal fragment must have all columns of the original base table.
+
+2. Vertical data Fragmentation
+In vertical fragmentation, the fields or columns of a table are grouped into fragments.
+In order to maintain reconstructiveness, each fragment should contain the primary key field(s) of the table.
+Vertical fragmentation can be used to enforce privacy of data.
+
+3. Hybrid data Fragmentation
+In hybrid fragmentation, a combination of horizontal and vertical fragmentation techniques are used.
+This is the most flexible fragmentation technique since it generates fragments with minimal extraneous information.
+However, reconstruction of the original table is often an expensive task.
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Data replication 
+
+Data replication is the process in which the data is copied at multiple locations (Different computers or servers) to improve the availability of data.
+Data replication is the process of storing separate copies of the database at two or more sites.
+It is a popular fault tolerance technique of distributed databases.
+
+Goals of data replication
+Data replication is done with an aim to:
+Increase the availability of data.
+Speed up the query evaluation.
+
+Types of data replication
+There are two types of data replication:
+
+1. Synchronous Replication:
+In synchronous replication, the replica will be modified immediately after some changes are made in the relation table.
+So there is no difference between original data and replica.
+
+2. Asynchronous replication:
+In asynchronous replication, the replica will be modified after commit is fired on to the database.
+
+Advantages of Data Replication
+
+Reliability − In case of failure of any site, the database system continues to work since a copy is available at another site(s).
+Reduction in Network Load − Since local copies of data are available, query processing can be done with reduced network usage, particularly during prime hours. 
+Data updating can be done at non-prime hours.
+Quicker Response − Availability of local copies of data ensures quick query processing and consequently quick response time.
+Simpler Transactions − Transactions require less number of joins of tables located at different sites and minimal coordination across the network.
+Thus, they become simpler in nature.
+
+Disadvantages of Data Replication
+
+Increased Storage Requirements − Maintaining multiple copies of data is associated with increased storage costs.
+The storage space required is in multiples of the storage required for a centralized system.
+Increased Cost and Complexity of Data Updating − Each time a data item is updated, the update needs to be reflected in all the copies of the data at the different sites.
+This requires complex synchronization techniques and protocols.
+Undesirable Application − If complex update mechanisms are not used, removing data inconsistency requires complex co-ordination at application level.
+This results in undesirable application.
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Replication Schemas
+
+The three replication schemes are as follows:
+
+1. Full Replication
+In full replication scheme, the database is available to almost every location or user in communication network.
+
+Advantages of full replication
+High availability of data, as database is available to almost every location.
+Faster execution of queries.
+Disadvantages of full replication
+Concurrency control is difficult to achieve in full replication.
+Update operation is slower.
+
+2. No Replication
+No replication means, each fragment is stored exactly at one location.
+
+Advantages of no replication
+Concurrency can be minimized.
+Easy recovery of data.
+Disadvantages of no replication
+Poor availability of data.
+Slows down the query execution process, as multiple clients are accessing the same server.
+
+3. Partial replication
+Partial replication means only some fragments are replicated from the database.
+
+Advantages of partial replication
+The number of replicas created for fragments depend upon the importance of data in that fragment.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Query Processing and Optimization 
+
+DDBMS processes and optimizes a query in terms of communication cost of processing a distributed query and other parameters.
+
+Various factors which are considered while processing a query are as follows:
+    
+    Costs of Data transfer
+This is a very important factor while processing queries. The intermediate data is transferred to other location for data processing 
+and the final result will be sent to the location where the actual query is processing.
+The cost of data increases if the locations are connected via high performance communicating channel.
+The DDBMS query optimization algorithms are used to minimize the cost of data transfer.
+
+    Semi-join based query optimization
+Semi-join is used to reduce the number of relations in a table before transferring it to another location.
+Only joining columns are transferred in this method. This method reduces the cost of data transfer.
+    
+    Cost based query optimization
+Query optimization involves many operations like, selection, projection, aggregation.
+Cost of communication is considered in query optimization.
+In centralized database system, the information of relations at remote location is obtained from the server system catalogs.
+The data (query) which is manipulated at local location is considered as a sub query to other global locations. 
+This process estimates the total cost which is needed to compute the intermediate relations.
+
+    Distributed Transactions
+A Distributed Databases Management System should be able to survive in a system failure without losing any data in the database.
+This property is provided in transaction processing.
+The local transaction works only on own location(Local Location) where it is considered as a global transaction for other locations.
+Transactions are assigned to transaction monitor which works as a supervisor.
+A distributed transaction process is designed to distribute data over many locations and transactions are carried out successfully or terminated successfully.
+Transaction Processing is very useful for concurrent execution and recovery of data.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Recovery 
+
+Recovery is the most complicated process in distributed databases. 
+Recovery of a failed system in the communication network is very difficult.
+It is actually very difficult to find the cause of failure in a large communication network.
+Distributed commit in the network is also a serious problem which can affect the recovery in a distributed databases.
+------------------------------------------------------------------------------------------------------------------------------------------------
+Two-phase commit protocol 
+
+Two-phase protocol is a type of atomic commitment protocol. 
+This is a distributed algorithm which can coordinate all the processes that participate in the database and decide to commit or terminate the transactions. 
+The protocol is based on commit and terminate action.
+The two-phase protocol ensures that all participant which are accessing the database server can receive and implement the same action 
+(Commit or terminate), in case of local network failure.
+Two-phase commit protocol provides automatic recovery mechanism in case of a system failure.
+The location at which original transaction takes place is called as coordinator and where the sub process takes place is called as Cohort.
+
+Commit request:
+In commit phase the coordinator attempts to prepare all cohorts and take necessary steps to commit or terminate the transactions.
+
+Commit phase:
+The commit phase is based on voting of cohorts and the coordinator decides to commit or terminate the transaction.
+------------------------------------------------------------------------------------------------------------------------------------------------
+Concurrency problems
+
+Some problems which occur while accessing the database are as follows:
+
+1. Failure at local locations
+When system recovers from failure the database is out dated compared to other locations.
+So it is necessary to update the database.
+
+2. Failure at communication location
+System should have a ability to manage temporary failure in a communicating network in distributed databases.
+In this case, partition occurs which can limit the communication between two locations.
+
+3. Dealing with multiple copies of data
+It is very important to maintain multiple copies of distributed data at different locations.
+
+4. Distributed commit
+While committing a transaction which is accessing databases stored on multiple locations, 
+if failure occurs on some location during the commit process then this problem is called as distributed commit.
+
+5. Distributed deadlock
+Deadlock can occur at several locations due to recovery problem and concurrency problem 
+(multiple locations are accessing same system in the communication network).
+------------------------------------------------------------------------------------------------------------------------------------------------
+Concurrency Controls 
+
+There are three different ways of making distinguish copy of data by applying:
+
+1) Lock based protocol
+A lock is applied to avoid concurrency problem between two transaction in such a way that the lock is applied on one transaction and 
+other transaction can access it only when the lock is released. 
+The lock is applied on write or read operations. It is an important method to avoid deadlock.
+
+2) Shared lock system (Read lock)
+The transaction can activate shared lock on data to read its content. 
+The lock is shared in such a way that any other transaction can activate the shared lock on the same data for reading purpose.
+
+3) Exclusive lock
+The transaction can activate exclusive lock on a data to read and write operation. 
+In this system, no other transaction can activate any kind of lock on that same data.
+=====================================================================================================================================
+                                  ******    CHAP 4 - Object Based Databases     ******
+=====================================================================================================================================
+
+ Concepts of Object Databases 
+
+Object oriented database systems are alternative to relational database and other database systems.
+In object oriented database, information is represented in the form of objects.
+Object oriented databases are exactly same as object oriented programming languages. 
+If we can combine the features of relational model (transaction, concurrency, recovery) to object oriented databases, the resultant model is 
+called as object oriented database model.
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Features of OODBMS 
+
+In OODBMS, every entity is considered as object and represented in a table. 
+Similar objects are classified to classes and subclasses and relationship between two object is maintained using concept of inverse reference.
+Some of the features of OODBMS are as follows:
+
+1. Complexity
+OODBMS has the ability to represent the complex internal structure (of object) with multilevel complexity.
+
+2. Inheritance
+Creating a new object from an existing object in such a way that new object inherits all characteristics of an existing object.
+
+3. Encapsulation
+It is an data hiding concept in OOPL which binds the data and functions together which can manipulate data and not visible to outside world.
+
+4. Persistency
+OODBMS allows to create persistent object (Object remains in memory even after execution). This feature can automatically solve the problem of recovery and concurrency.
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Challenges in ODBMS Implementation 
+
+During the implementation of ORDBMS, various challenges arise which need to be resolved. They are:
+
+1. Storage and accessibility of data
+It is possible to define new types with new access to structures with the help of OODBMS. 
+Hence, it is important that the system must store ADT and structured objects efficiently along with the provision of indexed access.
+Challenge : Storage of large ADTs and structured objects.
+Solution: As large ADTs need special storage, it is possible to store them on different locations on the disk from the tuples that contain them. For e.g. BLOBs (Binary Large Object like images, audio or any multimedia object.)
+Use of flexible disk layout mechanisms can solve the storage problem of structured objects.
+
+2. Query Processing
+Challenge: Efficient flow of Query Processing and optimization is a difficult task.
+Solution: By registering the user defined aggregation function, query processing becomes easier. 
+It requires three implementation steps - initialize, iterate and terminate.
+
+3. Query Optimization
+Challenge: New indexes and query processing techniques increase the options for query optimization. 
+But, the challenge is that the optimizer must know to handle and use the query processing functionality properly.
+Solution: While constructing a query plan, an optimizer must be familiar to the newly added index structures.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Object Identity – Object structure  
+
+ The ODBMS which is an abbreviation for object oriented database management system, is the data model in which data is stored in form of objects, which are instances of classes.
+ These classes and objects together makes an object oriented data model.
+
+ Components of Object Oriented Data Model: 
+The OODBMS is based on three major components, namely: Object structure, Object classes, and Object identity. 
+These are explained as following below. 
+
+1. Object Structure: 
+The structure of an object refers to the properties that an object is made up of. 
+These properties of an object are referred to as an attribute. 
+Thus, an object is a real world entity with certain attributes that makes up the object structure. 
+Also an object encapsulates the data code into a single unit which in turn provides data abstraction by hiding the implementation details from the user. 
+
+2. Object identity:
+Every object has unique identity. In an object oriented system, when object is created OID is assigned to it.
+In RDBMS OID is value based and primary key is used to provide uniqueness of each table in relation. 
+Primary key is unique only for that relation and not for the entire system. 
+Primary key is chosen from the attributes of the relation which makes object independent on the object state.
+In OODBMS OID are variable name or pointer.
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Objects and Attributes   
+
+ What is Object?
+ Object consists of entity and attributes which can describe the state of real world object and action associated with that object.
+
+    Type Constructors           
+    Encapsulation of Operations            
+    Methods           
+    Persistence           
+    Type and Class Hierarchy       
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Structures and Unstructured data  
