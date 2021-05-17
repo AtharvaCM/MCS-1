@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<records>
-   <ename>Manasvi</ename>
-   <city>Goa</city>
-</records>
+<dependent>
+          <dependentName>Alice</dependentName>
+          <sex>F</sex>
+          <dob>05-APR-1976</dob>
+          <relationship>Daughter</relationship>
+        </dependent>
+<dependent>
+          <dependentName>Johnny</dependentName>
+          <sex>M</sex>
+          <dob>04-APR-1997</dob>
+          <relationship>Son</relationship>
+        </dependent>
+<dependent>
+          <dependentName>Tommy</dependentName>
+          <sex>M</sex>
+          <dob>07-APR-1999</dob>
+          <relationship>Son</relationship>
+        </dependent>
+<dependent>
+          <dependentName>Chris</dependentName>
+          <sex>M</sex>
+          <dob>19-APR-1969</dob>
+          <relationship>Spouse</relationship>
+        </dependent>
