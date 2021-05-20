@@ -10,8 +10,10 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # this allows us to RC and the 'port is in use' msg wont get displayed
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+print('[STARTING SERVER]')
 server_socket.bind((IP, PORT))
 server_socket.listen()
+print(f'[LISTENING] Server listening on {IP}:{PORT} ...')
 
 sockets_list = [server_socket]
 
@@ -39,7 +41,7 @@ while True:
         sockets_list, [], sockets_list)
 
     for notified_socket in read_sockets:
-        # if someone just connected to hte server
+        # if someone just connected to the server
         if notified_socket == server_socket:
             client_socket, client_address = server_socket.accept()
 
@@ -52,7 +54,7 @@ while True:
             clients[client_socket] = user
 
             print(
-                f"Accepted new connection from {client_address[0]}:{client_address[1]} username:{user['data'].decode('utf-8')}")
+                f"[+]Accepted new connection from {client_address[0]}:{client_address[1]} username:{user['data'].decode('utf-8')}")
 
         else:
             # if its just a msg
@@ -60,7 +62,7 @@ while True:
 
             if message is False:
                 print(
-                    f"closed connection from {clients[notified_socket]['data'].decode('utf-8')}")
+                    f"[+]Closed connection from {clients[notified_socket]['data'].decode('utf-8')}")
                 sockets_list.remove(notified_socket)
                 del clients[notified_socket]
                 continue
@@ -68,7 +70,7 @@ while True:
             # recv that msg
             user = clients[notified_socket]
             print(
-                f"Receieved message from {user['data'].decode('utf-8')}: {message['data'].decode('utf-8')}")
+                f"[+]Receieved message from {user['data'].decode('utf-8')}: {message['data'].decode('utf-8')}")
 
             # broadcast the msg to all clients
             for client_socket in clients:

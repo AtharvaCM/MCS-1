@@ -38,7 +38,7 @@ while True:
             # receive msgs
             username_header = client_socket.recv(HEADER_LENGTH)
             if not len(username_header):
-                # we did ont get data for some reason
+                # we did not get data for some reason
                 print("connection closed by the server")
                 sys.exit()
 
