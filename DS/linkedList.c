@@ -22,7 +22,6 @@ void init()
 {
     // creating a header node
     HEAD = getNode(0);
-    HEAD->next = NULL;
 }
 
 void append(int value)
