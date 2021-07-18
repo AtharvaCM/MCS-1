@@ -1,0 +1,7 @@
+total 44
+-rwxrwxr-x 1 atharva-cm atharva-cm 16984 Jul 11 13:59 a.out
+-rwxrwxr-x 1 atharva-cm atharva-cm 18488 Jul 17 12:33 ls
+-rw-rw-r-- 1 atharva-cm atharva-cm   335 Jul 17 12:32 ls.c
+-rwx------ 1 atharva-cm atharva-cm     0 Jul 17 12:33 output.txt
+-rw-rw-r-- 1 atharva-cm atharva-cm     0 Jul 17 12:01 test1.txt
+-rw-rw-r-- 1 atharva-cm atharva-cm     0 Jul 17 12:01 test2.txt

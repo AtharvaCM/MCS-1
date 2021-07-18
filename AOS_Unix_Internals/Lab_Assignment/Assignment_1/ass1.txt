@@ -1,0 +1,641 @@
+
+Name: Rugvedi Jamgaonkar.
+Class: MScCS-1
+Roll: 15
+
+1] Write a C program to implement the following unix/linux command ls –l > output.txt 
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+int main()
+{
+    int pid = fork();
+    int fd = creat("output.txt", S_IRWXU);
+    if (pid != 0 && pid != -1)
+    {
+        close(1); // stdout
+        dup(fd);  // replace file descriptor
+        execlp("ls", "ls", "-l", NULL);
+        close(fd);
+    }
+
+    return 0;
+}
+
+// o/p 
+
+output.txt
+
+total 44
+-rwxrwxr-x 1 rugvedi rugvedi 16984 Jul 11 13:59 a.out
+-rwxrwxr-x 1 rugvedi rugvedi 18488 Jul 17 12:33 ls
+-rw-rw-r-- 1 rugvedi rugvedi   335 Jul 17 12:32 ls.c
+-rwx------ 1 rugvedi rugvedi     0 Jul 17 12:33 output.txt
+-rw-rw-r-- 1 rugvedi rugvedi     0 Jul 17 12:01 test1.txt
+-rw-rw-r-- 1 rugvedi rugvedi     0 Jul 17 12:01 test2.txt
+
+-------------------------------------------------------------------------------------------------------
+2] Write a C program which display the information of a given file similar to given by the unix / linux command
+ls –l <file name>
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int pid = fork();
+
+    if (pid < 0)
+    { //fail
+        printf("\nFork failed\n");
+        exit(-1);
+    }
+    else if (pid == 0)
+    {
+        char filename[50];
+        printf("\nEnter filename: ");
+        scanf("%s", filename);                         //child
+        execlp("/bin/ls", "ls", "-l", filename, NULL); //execute ls
+    }
+    else
+    {               //parent
+        wait(NULL); //wait for child
+        printf("\nchild complete\n");
+        exit(0);
+    }
+
+    return 0;
+}
+
+// o/p 
+
+Enter filename: output.txt
+-rwx------ 1 rugvedi rugvedi 378 Jul 17 12:33 output.txt
+
+child complete
+
+-------------------------------------------------------------------------------------------------------
+3] Write a C program that behaves like a shell (command interpreter). It has its own prompt say “ModernShell$”. Any normal shell command is executed from your shell by starting a child process to execute the system program corresponding to the command. It should additionally interpret the following command.
+
+i) count c <filename> - print number of characters in file
+
+ii) count w <filename> - print number of words in file
+
+iii) count l <filename> - print number of lines in file
+
+#include <stdio.h>
+#include <unistd.h> // for fork(),exclp()
+#include <fcntl.h>  // O_RDONLY
+#include <stdlib.h> //exit()
+#include <string.h>
+void count(char c, char *fn)
+{
+    int line_count = 0, word_count = 0, char_count = 0, handle;
+    char ch;
+    if ((handle = open(fn, O_RDONLY)) == -1)
+    {
+        printf("File %s not found\n", fn);
+        return;
+    }
+    while (read(handle, &ch, 1) != 0)
+    {
+        if (ch == ' ' || ch == '\n')
+            word_count++;
+        else
+            char_count++;
+
+        if (ch == '\n')
+            line_count++;
+    }
+    close(handle);
+    switch (c)
+    {
+    case 'c':
+        printf("Total No.of Characters = %d\n", char_count);
+        break;
+    case 'w':
+        printf("Total No.of Words = %d\n", word_count);
+        break;
+    case 'l':
+        printf("Total No.of Lines = %d\n", line_count);
+        break;
+    }
+}
+
+int main()
+{
+    char command[80], t1[20], t2[20], t3[20], t4[20];
+    int n;
+    system("clear");
+    while (1)
+    {
+        printf("\nmodernShell$ ");
+        fflush(stdin);
+        fgets(command, 80, stdin);
+        n = sscanf(command, "%s %s %s %s", t1, t2, t3, t4);
+        switch (n)
+        {
+        case 1:
+            if (strcmp(t1, "exit") == 0)
+                exit(1);
+            if (!fork())
+            {
+                execlp(t1, t1, NULL);
+                perror(t1);
+            }
+            break;
+        case 2:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, NULL);
+                perror(t1);
+            }
+            break;
+        case 3:
+            if (strcmp(t1, "count") == 0)
+                count(t2[0], t3);
+            else
+            {
+                if (!fork())
+                {
+                    execlp(t1, t1, t2, t3, NULL);
+                    perror(t1);
+                }
+            }
+            break;
+        case 4:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, t3, t4, NULL);
+                perror(t1);
+            }
+        }
+    }
+    return 0;
+}
+
+o/p 
+
+modernShell$ count c test1.txt
+Total No.of Characters = 96
+
+modernShell$ count w test1.txt
+Total No.of Words = 27
+
+modernShell$ count l test1.txt
+Total No.of Lines = 9
+
+-------------------------------------------------------------------------------------------------------
+4] Write a C program that behaves like a shell (command interpreter). It has its own prompt say “ModernShell $”. Any normal shell command is executed from your shell by starting a child process to execute the system program corresponding to the command. It should additionally interpret the following command.
+
+i) list f <dirname> - print name of all files in directory
+
+ii) list n <dirname> - print number of all entries
+
+iii) list i<dirname> - print name and inode of all files
+
+#include <stdio.h>
+#include <unistd.h> //execlp()
+#include <fcntl.h>  //O_RDONLY
+#include <stdlib.h> //exit()
+#include <string.h>
+#include <dirent.h>
+
+void list(char op, char *dn)
+{
+    DIR *dirp;
+    struct dirent *entry;
+    int dc = 0, fc = 0;
+    dirp = opendir(dn);
+    if (dirp == NULL)
+    {
+        printf("Directory %s not found\n", dn);
+        return;
+    }
+    switch (op)
+    {
+    case 'F':
+    case 'f':
+        while (entry = readdir(dirp))
+        {
+            printf("%s\n", entry->d_name);
+        }
+        break;
+    case 'N':
+    case 'n':
+        while (entry = readdir(dirp))
+        {
+            if (entry->d_type == DT_REG)
+                fc++;
+            if (entry->d_type == DT_DIR)
+                dc++;
+        }
+        printf("%d File(s)\t %d Dir(s)\n", fc, dc);
+        break;
+    case 'I':
+    case 'i':
+        while (entry = readdir(dirp))
+        {
+            printf("%s\t%lu\n", entry->d_name, entry->d_fileno);
+        }
+        break;
+    default:
+        printf("Invalid parameter!\n");
+    }
+}
+
+int main()
+{
+    char command[80], t1[20], t2[20], t3[20], t4[20];
+    int n;
+    system("clear");
+    while (1)
+    {
+        printf("\nmodernShell$ ");
+        fflush(stdin);
+        fgets(command, 80, stdin);
+        n = sscanf(command, "%s %s %s %s", t1, t2, t3, t4);
+        switch (n)
+        {
+        case 1:
+            if (strcmp(t1, "exit") == 0)
+                exit(1);
+            if (!fork())
+            {
+                execlp(t1, t1, NULL);
+                perror(t1);
+            }
+            break;
+        case 2:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, NULL);
+                perror(t1);
+            }
+            break;
+        case 3:
+            if (strcmp(t1, "list") == 0)
+                list(t2[0], t3);
+            else
+            {
+                if (!fork())
+                {
+                    execlp(t1, t1, t2, t3, NULL);
+                    perror(t1);
+                }
+            }
+            break;
+        case 4:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, t3, t4, NULL);
+                perror(t1);
+            }
+        }
+    }
+
+    return 0;
+}
+
+o/p 
+
+modernShell$ list f .
+test2.txt
+modernshell_3
+.
+modernshell_3.c
+ass1.txt
+ls_file.c
+ls_file
+test1.txt
+..
+ls.c
+ls
+modernshell_2.c
+a.out
+output.txt
+modernshell_1.c
+modernshell_4.c
+
+modernShell$ list n .
+14 File(s)       2 Dir(s)
+
+modernShell$ list i ..
+.       557067
+Assignment_1    557068
+..      527503
+
+-------------------------------------------------------------------------------------------------------
+5] Write a C program that behaves like a shell (command interpreter). It has its own prompt say “ModernShell$”. Any normal shell command is executed from your shell by starting a child process to execute the system program corresponding to the command. It should additionally interpret the following command.
+
+i) typeline +10 <filename> - print first 10 lines of file
+
+ii) typeline -20 <filename> - print last 20 lines of file
+
+iii) typeline a <filename> - print all lines of file 
+
+#include <stdio.h>
+#include <unistd.h> //execlp()
+#include <fcntl.h>  //O_RDONLY
+#include <stdlib.h> //exit()
+#include <string.h>
+
+void typeline(char *s, char *filename)
+{
+    int handle, i = 0, count = 0, n;
+    char ch;
+
+    if ((handle = open(filename, O_RDONLY)) == -1)
+    {
+        printf("File %s not found\n", filename);
+        return;
+    }
+
+    // if a argument is passed
+    if (strcmp(s, "a") == 0)
+    {
+        while (read(handle, &ch, 1) != 0)
+            printf("%c", ch);
+        close(handle);
+        return;
+    }
+
+    // convert the number passed from str to int
+    n = atoi(s);
+    // print first n lines
+    if (n > 0)
+    {
+        while (read(handle, &ch, 1) != 0)
+        {
+            if (ch == '\n')
+                i++;
+            if (i == n)
+                break;
+            printf("%c", ch);
+        }
+        printf("\n");
+        close(handle);
+        return;
+    }
+    // print last n lines
+    if (n < 0)
+    {
+        // count number of lines
+        while (read(handle, &ch, 1) != 0)
+        {
+            if (ch == '\n')
+                count++;
+        }
+        lseek(handle, 0, SEEK_SET); // lseek moves the read/write pointer
+        // set the control to correct position
+        while (read(handle, &ch, 1) != 0)
+        {
+            if (ch == '\n')
+                i++;
+            if (i == count + n + 1)
+                break;
+        }
+        // print the lines
+        while (read(handle, &ch, 1) != 0)
+            printf("%c", ch);
+        printf("\n");
+        close(handle);
+    }
+}
+
+int main()
+{
+    char command[80], t1[20], t2[20], t3[20], t4[20];
+    int n;
+    system("clear");
+    while (1)
+    {
+        printf("\nmodernShell$ ");
+        fflush(stdin);
+        fgets(command, 80, stdin);
+        n = sscanf(command, "%s %s %s %s", t1, t2, t3, t4); 
+        switch (n)
+        {
+        case 1:
+            if (strcmp(t1, "exit") == 0)
+                exit(1);
+            if (!fork())
+            {
+                execlp(t1, t1, NULL);
+                perror(t1);
+            }
+            break;
+        case 2:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, NULL);
+                perror(t1);
+            }
+            break;
+        case 3:
+            if (strcmp(t1, "typeline") == 0)
+                typeline(t2, t3);
+            else
+            {
+                if (!fork())
+                {
+                    execlp(t1, t1, t2, t3, NULL);
+                    perror(t1);
+                }
+            }
+            break;
+        case 4:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, t3, t4, NULL);
+                perror(t1);
+            }
+        }
+    }
+
+    return 0;
+}
+
+o/p 
+
+modernShell$ typeline a test1.txt
+Hi my name is Slim Shady
+Line 2
+Hellow world
+Ezz lyf
+Line 5
+The quick brown fox
+Fix fox
+Fire and Blood
+Lorem ipsum 
+Line 10
+modernShell$ typeline -3 test1.txt
+Fire and Blood
+Lorem ipsum 
+Line 10
+
+modernShell$ typeline 7 test1.txt
+Hi my name is Slim Shady
+Line 2
+Hellow world
+Ezz lyf
+Line 5
+The quick brown fox
+Fix fox
+
+-------------------------------------------------------------------------------------------------------
+6] Write a C program that behaves like a shell (command interpreter). It has its own prompt say “ModernShell$”.Any normal shell command is executed from your shell by starting a child process to execute the system program corresponding to the command. It should additionally interpret the following command.
+
+i) search f <pattern> <filename> - search first occurrence of pattern in filename
+
+ii) search c <pattern> <filename> - count no. of occurrences of pattern in filename
+
+iii) search a <pattern> <filename> - search all occurrences of pattern in filename 
+
+#include <stdio.h>
+#include <unistd.h> //execlp()
+#include <fcntl.h>  //O_RDONLY
+#include <stdlib.h> //exit()
+#include <string.h> //strstr()
+void search(char c, char *s, char *filename)
+{
+    int handle, i = 1, count = 0, j = 0;
+    char ch, buff[80], *p;
+    if ((handle = open(filename, O_RDONLY)) == -1)
+    {
+        printf("\nFile %s not found\n", filename);
+        return;
+    }
+    switch (c)
+    {
+    case 'f':
+        while (read(handle, &ch, 1) != 0)
+        {
+            if (ch == '\n')
+            {
+                buff[j] = '\0';
+                j = 0;
+                if (strstr(buff, s) != NULL)
+                {
+                    printf("%d : %s\n", i, buff);
+                    break;
+                }
+                i++;
+            }
+            else
+                buff[j++] = ch;
+        }
+        break;
+    case 'c':
+        while (read(handle, &ch, 1) != 0)
+        {
+            if (ch == '\n')
+            {
+                buff[j] = '\0';
+                j = 0;
+                if (strstr(buff, s) != NULL)
+                {
+                    p = buff;
+                    while ((p = strstr(p, s)) != NULL)
+                    {
+                        count++;
+                        p++;
+                    }
+                }
+            }
+            else
+                buff[j++] = ch;
+        }
+        printf("Total No. of Occurrences = %d\n", count);
+        break;
+    case 'a':
+        while (read(handle, &ch, 1) != 0)
+        {
+            if (ch == '\n')
+            {
+                buff[j] = '\0';
+                j = 0;
+                if (strstr(buff, s) != NULL)
+                    printf("%d : %s\n", i, buff);
+                i++;
+            }
+            else
+                buff[j++] = ch;
+        }
+    }
+    close(handle);
+}
+
+int main()
+{
+    char command[80], t1[20], t2[20], t3[20], t4[20];
+    int n;
+    system("clear");
+    while (1)
+    {
+        printf("\nmodernShell$ ");
+        fflush(stdin);
+        fgets(command, 80, stdin);
+        n = sscanf(command, "%s %s %s %s", t1, t2, t3, t4);
+        switch (n)
+        {
+        case 1:
+            if (strcmp(t1, "exit") == 0)
+                exit(1);
+            if (!fork())
+            {
+                execlp(t1, t1, NULL);
+                perror(t1);
+            }
+            break;
+        case 2:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, NULL);
+                perror(t1);
+            }
+            break;
+        case 3:
+            if (!fork())
+            {
+                execlp(t1, t1, t2, t3, NULL);
+                perror(t1);
+            }
+            break;
+        case 4:
+            if (strcmp(t1, "search") == 0)
+                search(t2[0], t3, t4);
+            else
+            {
+                if (!fork())
+                {
+                    execlp(t1, t1, t2, t3, t4, NULL);
+                    perror(t1);
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+o/p 
+
+modernShell$ search f Ezz test1.txt
+4 : Ezz lyf
+
+modernShell$ search c Line test1.txt
+Total No. of Occurrences = 2
+
+modernShell$ search a Line test1.txt
+2 : Line 2
+5 : Line 5
+
+-------------------------------------------------------------------------------------------------------
+7] Write a C program which receives file names as command line arguments and display those filenames in ascending order according to their sizes. (e.g $ a.out a.txt b.txt c.txt, …) 
+
