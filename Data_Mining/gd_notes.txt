@@ -1,0 +1,27 @@
+Data Mining tools have the objective of discovering patterns/trends/groupings among large sets of data and transforming data into more refined information.
+
+It is a framework, such as Rstudio or Tableau that allows you to perform different types of data mining analysis.
+
+We can perform various algorithms such as clustering or classification on your data set and visualize the results itself. It is a framework that provides us better insights for our data and the phenomenon that data represent. Such a framework is called a data mining tool.
+
+------------------------------------------------------------------------------------------------------
+SEQUENCE: 
+    Introduction - Rugvedi
+
+TOOLS: 
+    Rapid Miner - Prathamesh
+    WEKA - Avishkar
+    SAS - Atharva
+    Orange - Rugvedi
+
+APPLICATIONS:
+    Telecommunication Industry - Prathamesh
+    Retail Industry - Avishkar
+    Intrusion Detection - Atharva
+    Health Care - Rugvedi
+------------------------------------------------------------------------------------------------------
+Links - 
+https://www.javatpoint.com/data-mining-tools
+https://www.geeksforgeeks.org/data-mining-techniques/
+https://www.slideshare.net/SaeedIqbal1/weka-presentation
+https://www.tutorialspoint.com/data_mining/dm_applications_trends.htm
